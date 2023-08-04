@@ -34,8 +34,8 @@ const index = ({ data }) => {
         <meta property='og:image' content={ '/images/memoji_laptop_crop.png' } />
 
         <meta name="twitter:card" content="summary_large_image"/>
-        <meta property="twitter:domain" content="patrickyoussef.com"/>
-        <meta property="twitter:url" content={ 'patrickyoussef.com' }/>
+        <meta property="twitter:domain" content="aryabastani.com"/>
+        <meta property="twitter:url" content={ 'aryabastani.com' }/>
         <meta name="twitter:title" content={ data.site.siteMetadata.title  }/>
         <meta name="twitter:description" content={ data.site.siteMetadata.description }/>
         <meta name="twitter:image" content={ '/images/memoji_laptop_crop.png' }/>

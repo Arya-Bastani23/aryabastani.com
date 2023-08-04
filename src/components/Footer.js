@@ -22,7 +22,7 @@ const Footer = () => {
   return(
     <Container>
       <Content>
-        <p>Designed and Built With Love by Patrick Youssef</p>
+        <p>Designed and Built by Arya Bastani. Website Credits @ patrickyoussef.com</p>
       </Content>
   </Container>
   )

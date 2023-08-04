@@ -48,7 +48,7 @@ const Header = () => (
         <Link to="/">
           <HomeButton>
             <h1>
-              Patrick<ColorText>.</ColorText>
+              Arya<ColorText>.</ColorText>
             </h1>
           </HomeButton>
         </Link>

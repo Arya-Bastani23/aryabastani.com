@@ -68,7 +68,7 @@ export default function Hero({ data }) {
   return (
     <Container>
       <div className="TextContent">
-        <h2 className="intro">Hi, I'm Patrick Youssef<span role="img" aria-label="Wave">👋</span></h2>
+        <h2 className="intro">Hi, I'm Arya Bastani<span role="img" aria-label="Wave">👋</span></h2>
         <MDXRenderer>{body}</MDXRenderer>
         <Socials/>
       </div>
