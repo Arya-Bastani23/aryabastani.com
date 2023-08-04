@@ -3,7 +3,7 @@
 
 * {
   margin: 0;
-  padding: 0;
+  padding: 2px;
   text-decoration: none;
   font-family: "Charter";
   color: black;
@@ -28,7 +28,8 @@ p {
 nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin: 40px auto;
+  margin: 0 auto;
+  border-bottom: 1px solid #333;
 }
 nav .links {
   display: inline-block;
@@ -39,13 +40,13 @@ nav a {
   margin-left: 20px;
   font-weight: 400;
   padding-bottom: 8px;
-  border-bottom: 3px solid transparent;
 }
 nav a:hover {
-  border-color: black;
+  border-color: white;
 }
 footer p{
   text-align: center;
   color: #bbb;
   margin: 40px auto;
 }
+
