@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `Patrick Youssef`,
-    description: `I'm Patrick Youssef and this is my coding blog and home on the web.`,
-    siteUrl: `https://www.patrickyoussef.com`,
+    title: `Arya Bastani`,
+    description: `I'm Arya Bastani. This project portfolio, and place I can talk about cool things.`,
+    siteUrl: `https://www.aryabastani.com`,
     keywords: ["gatsby", "blog", "robotics", "python", "deep learning", "machine learning"],
     image: "./src/favicon.png",
   },

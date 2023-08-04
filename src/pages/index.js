@@ -27,7 +27,7 @@ const index = ({ data }) => {
         <link rel="canonical" href={data.site.siteMetadata.siteUrl}/>
         <meta name="description" content={data.site.siteMetadata.description}/>
 
-        <meta property='og:url' content={ 'patrickyoussef.com' }/>
+        <meta property='og:url' content={ 'aryabastani.com' }/>
         <meta property="og:type" content="website"/>
         <meta property='og:title' content={ data.site.siteMetadata.title } />
         <meta property='og:description' content={ data.site.siteMetadata.description } />
