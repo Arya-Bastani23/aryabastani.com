@@ -6,7 +6,7 @@ export default function Header() {
     <nav>
       <h1>Bastani</h1>
       <div className="links">
-        <Link to="/about">About</Link>
+        {/* <Link to="/about">About</Link> */}
         <Link to="/blog">Blog</Link>
         <Link to="/projects">Projects</Link>
       </div>
