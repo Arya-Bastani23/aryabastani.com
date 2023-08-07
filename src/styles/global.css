@@ -29,7 +29,8 @@ nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 0 auto;
-  border-bottom: 3px solid black;
+  border-bottom: 1px solid black;
+  white-space: nowrap
 }
 nav .links {
   display: inline-block;
