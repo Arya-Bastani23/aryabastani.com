@@ -94,7 +94,8 @@ exports.components = {
   "component---src-pages-about-js": () => __webpack_require__.e(/*! import() | component---src-pages-about-js */ "component---src-pages-about-js").then(__webpack_require__.bind(__webpack_require__, /*! ./../../../src/pages/about.js?export=default */ "./src/pages/about.js?export=default")),
   "component---src-pages-blog-js": () => __webpack_require__.e(/*! import() | component---src-pages-blog-js */ "component---src-pages-blog-js").then(__webpack_require__.bind(__webpack_require__, /*! ./../../../src/pages/blog.js?export=default */ "./src/pages/blog.js?export=default")),
   "component---src-pages-index-js": () => __webpack_require__.e(/*! import() | component---src-pages-index-js */ "component---src-pages-index-js").then(__webpack_require__.bind(__webpack_require__, /*! ./../../../src/pages/index.js?export=default */ "./src/pages/index.js?export=default")),
-  "component---src-pages-projects-js": () => __webpack_require__.e(/*! import() | component---src-pages-projects-js */ "component---src-pages-projects-js").then(__webpack_require__.bind(__webpack_require__, /*! ./../../../src/pages/projects.js?export=default */ "./src/pages/projects.js?export=default"))
+  "component---src-pages-projects-js": () => __webpack_require__.e(/*! import() | component---src-pages-projects-js */ "component---src-pages-projects-js").then(__webpack_require__.bind(__webpack_require__, /*! ./../../../src/pages/projects.js?export=default */ "./src/pages/projects.js?export=default")),
+  "component---src-templates-posts-js": () => __webpack_require__.e(/*! import() | component---src-templates-posts-js */ "component---src-templates-posts-js").then(__webpack_require__.bind(__webpack_require__, /*! ./../../../src/templates/posts.js?export=default */ "./src/templates/posts.js?export=default"))
 };
 
 exports.head = {};

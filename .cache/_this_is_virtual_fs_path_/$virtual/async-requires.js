@@ -4,7 +4,8 @@ exports.components = {
   "component---src-pages-about-js": () => import("./../../../src/pages/about.js?export=default" /* webpackChunkName: "component---src-pages-about-js" */),
   "component---src-pages-blog-js": () => import("./../../../src/pages/blog.js?export=default" /* webpackChunkName: "component---src-pages-blog-js" */),
   "component---src-pages-index-js": () => import("./../../../src/pages/index.js?export=default" /* webpackChunkName: "component---src-pages-index-js" */),
-  "component---src-pages-projects-js": () => import("./../../../src/pages/projects.js?export=default" /* webpackChunkName: "component---src-pages-projects-js" */)
+  "component---src-pages-projects-js": () => import("./../../../src/pages/projects.js?export=default" /* webpackChunkName: "component---src-pages-projects-js" */),
+  "component---src-templates-posts-js": () => import("./../../../src/templates/posts.js?export=default" /* webpackChunkName: "component---src-templates-posts-js" */)
 }
 
 

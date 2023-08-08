@@ -2731,7 +2731,7 @@ function Home({
   }) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: _styles_projects_module_css__WEBPACK_IMPORTED_MODULE_3__.box
   }, children, projects.map(project => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(gatsby__WEBPACK_IMPORTED_MODULE_2__.Link, {
-    to: "/projects/" + project.frontmatter.slug + "/index",
+    to: "/content/projects/" + project.frontmatter.slug,
     key: project.id
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(gatsby_image__WEBPACK_IMPORTED_MODULE_4__["default"], {
     fluid: project.frontmatter.thumb.childImageSharp.fluid

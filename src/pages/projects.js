@@ -11,7 +11,7 @@ export default function Home({ data }) {
   const Box = ({ children }) => (
     <div className={box}>{children}
     {projects.map(project => (
-        <Link to={"/projects/" + project.frontmatter.slug + "/index"} key={project.id}>
+        <Link to={"/content/projects/" + project.frontmatter.slug} key={project.id}>
         <div>
           <Img fluid={project.frontmatter.thumb.childImageSharp.fluid} />
           <h3>{ project.frontmatter.title }</h3>

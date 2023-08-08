@@ -9,6 +9,7 @@ exports.components = {
   "component---src-pages-about-js": preferDefault(require("/Users/aryabastani/Documents/Website/src/pages/about.js")),
   "component---src-pages-blog-js": preferDefault(require("/Users/aryabastani/Documents/Website/src/pages/blog.js")),
   "component---src-pages-index-js": preferDefault(require("/Users/aryabastani/Documents/Website/src/pages/index.js")),
-  "component---src-pages-projects-js": preferDefault(require("/Users/aryabastani/Documents/Website/src/pages/projects.js"))
+  "component---src-pages-projects-js": preferDefault(require("/Users/aryabastani/Documents/Website/src/pages/projects.js")),
+  "component---src-templates-posts-js": preferDefault(require("/Users/aryabastani/Documents/Website/src/templates/posts.js"))
 }
 
