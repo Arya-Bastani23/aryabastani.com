@@ -41,6 +41,8 @@ module.exports = {
   /* Your site config here */
   plugins: [
     `gatsby-plugin-mdx`,
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -55,10 +57,20 @@ module.exports = {
         path: `${__dirname}/src/content/projects/`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images/`,
+      },
+    },
   ],
   siteMetadata: {
-    title: 'Web Warrior',
-    description: 'web dev portfolio',
-    copyright: 'This website is copyright 2021 Web Warrior'
-  },
+        title: `Bastani`,
+        description: `I'm Arya Bastani and this is my portfolio, blog, and home on the web.`,
+        siteUrl: `https://www.aryabastani.com`,
+        keywords: ["gatsby", "blog", "robotics", "python", "deep learning", "machine learning"],
+        image: "./src/images/cow.png",
+        author: `Arya Bastani`,
+      },
 }

@@ -1,20 +1,21 @@
 import * as React from "react"
 import Layout from '../components/Layout'
 import { Link, graphql } from "gatsby"
-import * as styles from '../styles/projects.module.css'
-
 import { box } from '../styles/projects.module.css'
+import Img from 'gatsby-image'
 
 
 export default function Home({ data }) {
+  console.log(data)
   const projects = data.allMdx.nodes
   const Box = ({ children }) => (
     <div className={box}>{children}
     {projects.map(project => (
         <Link to={"/projects/" + project.frontmatter.slug + "/index"} key={project.id}>
         <div>
-        <h3>{ project.frontmatter.title }</h3>
-        <p>{ project.frontmatter.tags }</p>
+          <Img fluid={project.frontmatter.thumb.childImageSharp.fluid} />
+          <h3>{ project.frontmatter.title }</h3>
+          <p>{ project.frontmatter.tags }</p>
         </div>
     </Link>
     ))}
@@ -32,13 +33,20 @@ export default function Home({ data }) {
 // Export page query
 export const query = graphql`
 query Projects {
-    allMdx {
+    allMdx(sort: {frontmatter: {date: DESC}}) {
       nodes {
         id
         frontmatter {
           slug
           title
           tags
+          thumb {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
         }
       }
     }
