@@ -1,11 +1,5 @@
-import * as React from "react"
-import Layout from '../components/Layout'
+import * as React from "react";
 
 export default function Home() {
-  return (
-    <Layout>
-      <div>404 Error</div>
-    </Layout>
-    
-  )
+  return <div>404 Error</div>;
 }
