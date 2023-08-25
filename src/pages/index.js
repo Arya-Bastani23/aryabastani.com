@@ -1,6 +1,8 @@
-import { StaticImage } from "gatsby-plugin-image";
+import { StaticImage, GatsbyImage, getImage } from "gatsby-plugin-image";
 import * as React from "react";
 import styled from "styled-components";
+import { graphql } from "gatsby";
+
 // import { box } from "../styles/home.module.css";
 
 // .box {
@@ -21,9 +23,8 @@ import styled from "styled-components";
 const Container = styled.div(
   ({ theme }) => `
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 40px;
-  align-items: center;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 50px;
 
   .h2 {
     font-size: 4em;
@@ -34,10 +35,40 @@ const Container = styled.div(
     font-weight: 400;
     margin-bottom: 20px;
   }
+
+  // Image
+  .image {
+    display: flex:
+    justify-content: center;
+    align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    .image {
+      display: none
+    }
+  }
 `
 );
 
-const Home = () => {
+const ImageGrid = styled.div(
+  ({ theme }) => `
+  display: grid;
+  grid-template-rows: 1fr;
+  // .gatsby-image-wrapper {
+  //   border-width: 1px;
+  //   border-style: solid;
+  //   border-radius: 50%;
+  // }
+`
+);
+
+const Home = ({ data }) => {
+  // console.log(data);
+  const { frontmatter } = data.allMdx.nodes[0];
+  console.log(frontmatter);
+  let image = getImage(frontmatter.thumb);
   return (
     <Container>
       <div>
@@ -47,12 +78,9 @@ const Home = () => {
         </h3>
         <p>I graduated from Berkeley before.</p>
       </div>
-      <StaticImage
-        src="../images/profile.jpg"
-        alt="An Arya"
-        placeholder="blurred"
-        layout="fixed"
-      />
+      <ImageGrid className="image">
+        <GatsbyImage image={image} alt="Hi it's me!" />
+      </ImageGrid>
     </Container>
   );
 };
@@ -61,7 +89,7 @@ export default Home;
 
 // Export page query
 export const query = graphql`
-  query Projects {
+  query IndexQuery {
     ...Hero
   }
 `;
