@@ -26,7 +26,7 @@ export default function Home({ data }) {
   return (
     <div>
       <h1>Projects</h1>
-      <p>This some stuff I made.</p>
+      <p>I am an engineer. I make stuff. Here's some stuff I made. </p>
       <Box></Box>
     </div>
   );
@@ -35,7 +35,10 @@ export default function Home({ data }) {
 // Export page query
 export const query = graphql`
   query Projects {
-    allMdx(sort: { frontmatter: { date: DESC } }) {
+    allMdx(
+      filter: { frontmatter: { title: { ne: "Hero" } } }
+      sort: { frontmatter: { date: DESC } }
+    ) {
       nodes {
         id
         frontmatter {

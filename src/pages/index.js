@@ -1,24 +1,9 @@
-import { StaticImage, GatsbyImage, getImage } from "gatsby-plugin-image";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import * as React from "react";
+// import { Coffee, GitHub, Linkedin, Send } from "react-feather";
 import styled from "styled-components";
 import { graphql } from "gatsby";
-
-// import { box } from "../styles/home.module.css";
-
-// .box {
-//   display: grid;
-//   grid-template-columns: 1fr 1fr;
-//   grid-gap: 40px;
-//   align-items: center;
-// }
-// .box h2 {
-//   font-size: 4em;
-// }
-// .box h3 {
-//   font-size: 3em;
-//   font-weight: 400;
-//   margin-bottom: 20px;
-// }
+import Socials from "../components/misc/SocialsRow";
 
 const Container = styled.div(
   ({ theme }) => `
@@ -32,7 +17,7 @@ const Container = styled.div(
 
   .h3 {
     font-size: 3em;
-    font-weight: 400;
+    font-weight: 200;
     margin-bottom: 20px;
   }
 
@@ -67,16 +52,23 @@ const ImageGrid = styled.div(
 const Home = ({ data }) => {
   // console.log(data);
   const { frontmatter } = data.allMdx.nodes[0];
-  console.log(frontmatter);
   let image = getImage(frontmatter.thumb);
   return (
     <Container>
       <div>
         <h3>
-          Hello, I'm Arya Bastani. I created this site to highlight things that
-          I think are cool.
+          Hello, I'm Arya Bastani (🍦). I created this site, because I wanted to
+          learn web dev and apply it in the most narcassistic way possible.
         </h3>
-        <p>I graduated from Berkeley before.</p>
+        <h3>I'm gonna</h3>
+        <p>
+          I also graduated from{" "}
+          <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
+            Berkeley
+          </a>
+          before.
+        </p>
+        <Socials />
       </div>
       <ImageGrid className="image">
         <GatsbyImage image={image} alt="Hi it's me!" />
@@ -93,32 +85,3 @@ export const query = graphql`
     ...Hero
   }
 `;
-
-// export default function Home() {
-//   const Box = ({ children }) => (
-//     <section className={box}>
-//       {children}
-// <div>
-//   <h3>
-//     Hello, I'm Arya Bastani. I created this site to highlight things that
-//     I think are cool.
-//   </h3>
-//   <p>I graduated from Berkeley before.</p>
-// </div>
-// <StaticImage
-//   src="../images/profile.jpg"
-//   alt="An Arya"
-//   placeholder="blurred"
-//   layout="fixed"
-// />
-//     </section>
-//   );
-//   return <Box></Box>;
-// }
-
-// // Export page query
-// export const query = graphql`
-//   query Projects {
-//     ...Hero
-//   }
-// `;
