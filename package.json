@@ -29,7 +29,8 @@
     "react-feather": "^2.0.10",
     "reading-time": "^1.5.0",
     "sanitize": "^2.1.2",
-    "sanitize.css": "^13.0.0"
+    "sanitize.css": "^13.0.0",
+    "styled-components": "^6.0.7"
   },
   "repository": {
     "type": "git",
