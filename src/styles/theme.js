@@ -1,9 +1,6 @@
 import colors from "./base_colors";
 
-let family = "neutral";
-let accent = "green";
-
-export const theme = {
+export const base = {
   shadow: "rgba(0, 0, 0, 0.2) 0px 2px 8px 2px",
   background_darken: "rgba(0, 0, 0, 0.05)",
   fonts: {
@@ -24,7 +21,11 @@ export const theme = {
     max: "1400px",
     content: "900px",
   },
+};
 
+let family = "neutral";
+let accent = "green";
+export const light_theme = {
   all: colors,
   background: colors[family][50],
   primary: colors[accent][600],

@@ -6,7 +6,7 @@ import "../styles/global.css";
 const ColorStrip = styled.div(
   ({ theme }) => `
   height: 0.5rem;
-  background-color: ${theme.primary};
+  background-color: ${theme.colors.primary};
 `
 );
 

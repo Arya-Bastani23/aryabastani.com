@@ -1,8 +1,11 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import { theme } from "./src/styles/theme.js";
+import { base, light_theme } from "./src/styles/theme.js";
 
-// let color_theme = light_theme;
+// Define Theme -- Thanks patrick
+// Eventually there will be some color switcher here
+let color_theme = light_theme;
+const theme = { ...base, colors: color_theme };
 
 console.log(theme);
 
