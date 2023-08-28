@@ -57,14 +57,15 @@ const Home = ({ data }) => {
     <Container>
       <div>
         <h3>
-          Hello, I'm Arya Bastani (🍦). I created this site, because I wanted to
-          learn web dev and apply it in the most narcassistic way possible.
+          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site,
+          because I wanted to learn web dev and apply it in the most
+          narcassistic way possible.
         </h3>
         <h3>I'm gonna</h3>
         <p>
           I also graduated from{" "}
           <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
-            Berkeley
+            <strong>Berkeley </strong>
           </a>
           before.
         </p>

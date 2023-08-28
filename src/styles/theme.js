@@ -4,7 +4,7 @@ export const base = {
   shadow: "rgba(0, 0, 0, 0.2) 0px 2px 8px 2px",
   background_darken: "rgba(0, 0, 0, 0.05)",
   fonts: {
-    main: "DM Sans",
+    main: "Charter",
     code: "Fira Code",
   },
   grid: {

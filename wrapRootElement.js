@@ -7,8 +7,6 @@ import { base, light_theme } from "./src/styles/theme.js";
 let color_theme = light_theme;
 const theme = { ...base, colors: color_theme };
 
-console.log(theme);
-
 const wrapRootElement = ({ element }) => (
   <ThemeProvider theme={theme}>{element}</ThemeProvider>
 );
