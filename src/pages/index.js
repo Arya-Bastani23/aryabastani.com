@@ -61,13 +61,15 @@ const Home = ({ data }) => {
           because I wanted to learn web dev and apply it in the most
           narcassistic way possible.
         </h3>
-        <h3>I'm gonna</h3>
+        <h3>
+          I'm gonna go over projects I've worked on that I think are note worthy
+        </h3>
         <p>
           I also graduated from{" "}
           <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
             <strong>Berkeley </strong>
           </a>
-          before.
+          before. 🐻
         </p>
         <Socials />
       </div>

@@ -3,16 +3,18 @@ import styled from "styled-components";
 
 const Container = styled.span(
   ({ theme }) => `
-  * {
-  font-weight: bold;
-  }
+
   margin: 0rem 0rem;
   h1,h2,h3 {
     margin: 0rem;
   }
-  color: ${theme.colors.text.dark};
-  display: flex;
-  flex-direction: row;
+  div {
+    color: ${theme.colors.text.dark};
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+  }
+
 
   span {
     color: ${theme.colors.primary};

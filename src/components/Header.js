@@ -148,7 +148,7 @@ const Header = () => {
         <NavBar>
           <Link to="/">
             <AccentText>
-              <div className="home">Bastani (🍦)</div>
+              <div className="home"> Bastani (🍦)</div>
             </AccentText>
           </Link>
           <NavItems>
