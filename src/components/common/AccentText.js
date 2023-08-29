@@ -14,8 +14,6 @@ const Container = styled.span(
     flex-direction: row;
     font-weight: bold;
   }
-
-
   span {
     color: ${theme.colors.primary};
   }

@@ -99,6 +99,10 @@ const Footer = styled.div(
   text-align: center;
   color: #bbb;
   margin: 40px auto;
+
+  a {
+    color: #bbb;
+  }
 `
 );
 
@@ -113,7 +117,10 @@ export default function Layout({ children }) {
           <div className="content">{children}</div>
           <Footer>
             Designed and built by Arya Bastani. In whatever town I'm in right
-            now.
+            now. <br />
+            <a href="https://patrickyoussef.com/">
+              Aided significantly by patrickyoussef.com
+            </a>
           </Footer>
         </ContentWidth>
       </LimitedWidth>

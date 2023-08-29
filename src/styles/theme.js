@@ -28,10 +28,10 @@ let accent = "green";
 export const light_theme = {
   all: colors,
   background: colors[family][50],
-  primary: colors[accent][600],
+  primary: colors[accent][900],
   borders: colors[family][500],
   buttons: {
-    border: colors[accent][600],
+    border: colors[accent][900],
     border_hover: colors[accent][800],
   },
   cards: {

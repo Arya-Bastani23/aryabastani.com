@@ -4,9 +4,19 @@ import * as React from "react";
 import styled from "styled-components";
 import { graphql } from "gatsby";
 import Socials from "../components/misc/SocialsRow";
+import ProjectSection from "../components/ProjectSection";
+import Underline from "../components/common/Underline";
 
+// Play around with container border later
 const Container = styled.div(
   ({ theme }) => `
+  padding:  10px ;
+  margin:  5px ;
+
+  border: 2px solid ${theme.colors.primary};
+  border-radius: 0.75rem;
+
+
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-gap: 50px;
@@ -49,6 +59,16 @@ const ImageGrid = styled.div(
 `
 );
 
+const Divider = styled.div(
+  ({ theme }) => `
+  h1,h2,h3 {
+    margin: 0rem;
+    color: ${theme.colors.text.dark};
+  }
+  margin: 1em 0em;
+`
+);
+
 const Home = ({ data }) => {
   // console.log(data);
   const { frontmatter } = data.allMdx.nodes[0];
@@ -74,17 +94,31 @@ const Home = ({ data }) => {
         <Socials />
       </div>
       <ImageGrid className="image">
-        <GatsbyImage image={image} alt="Hi it's me!" />
+        <GatsbyImage image={image} alt="Dis me with BMS" />
       </ImageGrid>
     </Container>
   );
 };
 
-export default Home;
+const Output = ({ data }) => {
+  // console.log(data);
+  const { frontmatter } = data.allMdx.nodes[0];
+  let image = getImage(frontmatter.thumb);
+  return (
+    <div>
+      <Home data={data} />
+      <h1>Projects</h1>
+      <ProjectSection data={data.projects} />
+    </div>
+  );
+};
+
+export default Output;
 
 // Export page query
 export const query = graphql`
   query IndexQuery {
     ...Hero
+    ...LimittedProjectQuery
   }
 `;
