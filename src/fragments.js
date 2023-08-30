@@ -136,3 +136,18 @@ export const blogFragment = graphql`
     }
   }
 `;
+
+export const resumeFragment = graphql`
+  fragment ResumeQuery on Query {
+    allFile(
+      filter: { name: { eq: "AryaBastaniResume" }, extension: { eq: "pdf" } }
+    ) {
+      edges {
+        node {
+          publicURL
+          name
+        }
+      }
+    }
+  }
+`;

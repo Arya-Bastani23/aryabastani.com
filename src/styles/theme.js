@@ -1,3 +1,5 @@
+// ref: https://tailwindcss.com/docs/customizing-colors
+
 import colors from "./base_colors";
 
 export const base = {
@@ -28,11 +30,11 @@ let accent = "green";
 export const light_theme = {
   all: colors,
   background: colors[family][50],
-  primary: colors[accent][900],
+  primary: colors[accent][900], // Dark Green
   borders: colors[family][500],
   buttons: {
     border: colors[accent][900],
-    border_hover: colors[accent][800],
+    border_hover: colors[accent][700],
   },
   cards: {
     background: colors[family][100],

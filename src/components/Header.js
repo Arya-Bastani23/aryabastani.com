@@ -1,4 +1,4 @@
-import { Link } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 import React from "react";
 import styled from "styled-components";
 import AccentText from "./common/AccentText";
@@ -22,10 +22,12 @@ const NavBar = styled.div(
   * {
     font-weight: 500;
     text-decoration: None
+    
   }
   // Matching resume button size
   .home {
     font-size: 1.575rem;
+
   }
 `
 );
@@ -61,7 +63,25 @@ const NavLink = ({ path, text }) => {
   );
 };
 
+const NavFile = ({ path, text }) => {
+  return (
+    <NavItem>
+      <h3>
+        <a href={path} target="_blank" rel="noreferrer">
+          {text}
+        </a>
+      </h3>
+    </NavItem>
+  );
+};
+
 const Header = () => {
+  const resume_query = useStaticQuery(graphql`
+    {
+      ...ResumeQuery
+    }
+  `);
+  console.log(resume_query);
   return (
     <Container>
       <Underline>
@@ -74,7 +94,11 @@ const Header = () => {
           <NavItems>
             <NavLink path="/projects/" text="Projects" />
             <NavLink path="/blog/" text="Blog" />
-            <NavLink path="/blog/" text="Resume" />
+            {/* <NavLink path="/blog/" text="Resume" /> */}
+            <NavFile
+              path={resume_query.allFile.edges[0].node.publicURL}
+              text="Resume"
+            />
           </NavItems>
         </NavBar>
       </Underline>

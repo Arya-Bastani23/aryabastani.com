@@ -18,9 +18,9 @@ const SocialItem = styled.div(
   ({ theme }) => `
   svg {
     transition: white;
-    color: white;
+    color: ${theme.colors.buttons.border};
     &:hover {
-      color: green;
+      color: ${theme.colors.buttons.border_hover};
     }
   }
 `
@@ -35,7 +35,7 @@ const Socials = () => {
         <a
           href="https://www.linkedin.com/in/arya-bastani/"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <Linkedin size={iconSize} strokeWidth={strokeWidth} />
         </a>
@@ -44,13 +44,17 @@ const Socials = () => {
         <a
           href="https://github.com/Arya-Bastani23/aryabastani.com"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <GitHub size={iconSize} strokeWidth={strokeWidth} />
         </a>
       </SocialItem>
       <SocialItem>
-        <a href="mailto:arya.bastani23@gmail.com">
+        <a
+          href="mailto:arya.bastani23@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Send size={iconSize} strokeWidth={strokeWidth} />
         </a>
       </SocialItem>
@@ -58,7 +62,7 @@ const Socials = () => {
         <a
           href="https://venmo.com/code?user_id=2440783097495552074&created=1693003504.32917&printed=1"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <Coffee size={iconSize} strokeWidth={strokeWidth} />
         </a>

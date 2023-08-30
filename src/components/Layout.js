@@ -4,7 +4,7 @@
 import React from "react";
 import Header from "./Header";
 import styled, { createGlobalStyle } from "styled-components";
-import "../styles/global.css";
+import Underline from "./common/Underline";
 
 const GlobalStyles = createGlobalStyle(
   ({ theme }) => `
@@ -100,6 +100,10 @@ const Footer = styled.div(
   color: #bbb;
   margin: 40px auto;
 
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #bbb;
+
   a {
     color: #bbb;
   }
@@ -118,7 +122,11 @@ export default function Layout({ children }) {
           <Footer>
             Designed and built by Arya Bastani. In whatever town I'm in right
             now. <br />
-            <a href="https://patrickyoussef.com/">
+            <a
+              href="https://patrickyoussef.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Aided significantly by patrickyoussef.com
             </a>
           </Footer>
