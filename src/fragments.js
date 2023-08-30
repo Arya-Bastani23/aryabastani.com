@@ -39,6 +39,7 @@ export const postElements = graphql`
       date(formatString: "MMM. Do, YYYY")
       templateKey
       title
+      category
       tags
       published
       pinned

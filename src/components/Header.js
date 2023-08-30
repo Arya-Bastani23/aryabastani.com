@@ -81,7 +81,6 @@ const Header = () => {
       ...ResumeQuery
     }
   `);
-  console.log(resume_query);
   return (
     <Container>
       <Underline>

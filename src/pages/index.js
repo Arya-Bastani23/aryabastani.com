@@ -70,7 +70,6 @@ const Divider = styled.div(
 );
 
 const Home = ({ data }) => {
-  // console.log(data);
   const { frontmatter } = data.allMdx.nodes[0];
   let image = getImage(frontmatter.thumb);
   return (
@@ -101,7 +100,6 @@ const Home = ({ data }) => {
 };
 
 const Output = ({ data }) => {
-  // console.log(data);
   const { frontmatter } = data.allMdx.nodes[0];
   let image = getImage(frontmatter.thumb);
   return (

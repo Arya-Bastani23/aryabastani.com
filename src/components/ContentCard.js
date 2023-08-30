@@ -132,6 +132,7 @@ const ContentCard = ({ frontmatter, fields, _image = false, id }) => {
     frontmatter.templateKey === "project"
       ? frontmatter.tags.sort().join(" · ")
       : frontmatter.category;
+
   let featureImg = getImage(frontmatter.thumb);
   return (
     <Link to={"/projects/" + frontmatter.slug} key={id}>
