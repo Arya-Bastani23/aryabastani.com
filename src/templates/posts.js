@@ -5,8 +5,9 @@ const Post = ({ data: { mdx }, children }) => {
   const { frontmatter } = mdx;
   return (
     <div>
-      <h2>{frontmatter.title}</h2>
-      <h3>stack</h3>
+      <h1>
+        <strong>{frontmatter.title}</strong>
+      </h1>
       {children}
     </div>
   );

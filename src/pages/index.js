@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { graphql } from "gatsby";
 import Socials from "../components/misc/SocialsRow";
 import ProjectSection from "../components/ProjectSection";
+import BlogSection from "../components/BlogSection";
 import Underline from "../components/common/Underline";
 
 // Play around with container border later
@@ -76,9 +77,9 @@ const Home = ({ data }) => {
     <Container>
       <div>
         <h3>
-          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site,
-          because I wanted to learn web dev and apply it in the most
-          narcassistic way possible.
+          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site
+          because I wanted to learn web dev, and apply it in the most
+          narcissistic way possible.
         </h3>
         <h3>
           I'm gonna go over projects I've worked on that I think are note worthy
@@ -107,6 +108,8 @@ const Output = ({ data }) => {
       <Home data={data} />
       <h1>Projects</h1>
       <ProjectSection data={data.projects} />
+      <h1>Blog</h1>
+      <BlogSection data={data.blog} />
     </div>
   );
 };
@@ -118,5 +121,6 @@ export const query = graphql`
   query IndexQuery {
     ...Hero
     ...LimittedProjectQuery
+    ...LimittedBlogQuery
   }
 `;
