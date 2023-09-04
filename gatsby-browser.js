@@ -1,4 +1,6 @@
+import "@code-hike/mdx/styles.css";
 import "sanitize.css";
+import "sanitize.css/typography.css";
 
 export { default as wrapPageElement } from "./wrapPageElement";
 export { default as wrapRootElement } from "./wrapRootElement";
