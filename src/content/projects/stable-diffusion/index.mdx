@@ -3,39 +3,35 @@ templateKey: project
 published: True
 title: EEG Signal Generation
 slug: stable-diffusion
-date: 2021-01-31
+date: 2023-08-31
 thumb: images/spectrogram.jpg
 pinned: True
 tags: [ML, Computer Vision]
 excerpt: "EEG say u brain work or no"
 ---
 
-# Hello ASLDKJAS
+# TLDR;
 
-[hello](https://www.youtube.com/)
+- Building an EEG generation and anonymization model working with Josh Sanz, Ryan Kaveh, as well as Professors Anant Sahai and Rikky Muller
+- Fine-tuning stable diffusion model in order to be able to generate unique EEG spectrograms that retains pertinent
+  information while removing features that can be used in order to determine gender and age
+- Use ear EEG classification transformer model as an adversarial network to determine if generated data is convincing
 
-```python
-print("Rendered with Code Hike")
-```
+# Motivation
 
-what does this look like after
+EEG signals are highly unique, there have been papers published showing that in some cases they can be used similiar
+to a finger print. This makes many people hesitant to make publicly avaliable, as if one can figure out what hospital
+and when they were taken you can use public data to trace who the patient is. If one were to be able to randomize certain
+parts of a dataset while retaining other important information this would allow for datasets to be anonymized.
 
-Lets do some math
+# The Problem Statement
 
-$$
-T_n = a + (n-1)d
-$$
+If one were to want to modify EEG signals they would have to do a series of things: take in EEG signals through
+some medium, interpret signal to classify certain features, and be able to produce new EEGs with those features
+altered.
 
-helaeljhadlj $T_n = a + (n-1)d$ s;dlkfjasd;lfasd;lj
+# Implementation
 
-Math isn't that cool
+This research project hasn't been completed. However, it is being investigated with the goal of publishing a paper.
 
-<p align="center">
-  <iframe
-    width="420"
-    height="315"
-    src="https://www.youtube.com/embed/tgbNymZ7vqY"
-  ></iframe>
-</p>
-
-`youtube: https://www.youtube.com/watch?v=Q089i8RQPB0`
+I will give a full breakdown when a paper has been publicly published.

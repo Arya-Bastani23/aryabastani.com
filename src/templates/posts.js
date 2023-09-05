@@ -3,6 +3,9 @@ import React from "react";
 import styled from "styled-components";
 require("katex/dist/katex.min.css");
 
+// Image aspect ratios: 16:9
+// You can use https://redketchup.io/image-resizer
+
 const MDXContent = styled.div(
   ({ theme }) => `
   

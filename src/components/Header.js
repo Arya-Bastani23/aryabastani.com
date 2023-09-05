@@ -93,6 +93,8 @@ const Header = () => {
           <NavItems>
             <NavLink path="/projects/" text="Projects" />
             <NavLink path="/blog/" text="Blog" />
+            {/* <NavLink path="/blog/" text="Experience" /> */}
+
             {/* <NavLink path="/blog/" text="Resume" /> */}
             <NavFile
               path={resume_query.allFile.edges[0].node.publicURL}
