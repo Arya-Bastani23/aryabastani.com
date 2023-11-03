@@ -12,7 +12,8 @@ thumb: images/febimage.jpg
 
 # TLDR;
 
-- Oversee/manage the design, implementation, and manufacturing of electric and software systems of a Formula SAE race car
+- As Chief EECS Engineer I oversaw/managed the design, implementation, and manufacturing of electric and software systems of a
+  Formula SAE EV race car
 - Manage a team of 35 designing more than 20 custom PCBs and custom firmware to create an electric race car with an 80kW
   powertrain, active telemetry system, and pit interface capable of going 80 mph while carrying a human safely
 - Optimize performance of system to inverter efficiently supply maximum amount of power without overheating battery of car
@@ -28,21 +29,40 @@ compete in the [SAE Formula EV competition](https://www.fsaeonline.com/). Every 
 carry a 5th percentile female to 95th percentile male and participate in a series of races: acceleration, endurance, and
 autocross.
 
-Fun fact the [fastest 0-60mph recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
+Fun fact the [fastest 0 to 60mph acceleration recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
 was set by FSAE competitor Green Team.
+
+Formula Electric at Berkeley (FEB) was created in the Spring of 2020 from the remnants of the Berkeley Hyperloop Team. I
+joined the team as a freshman the semester it was created. My freshman and sophomore year I developed the car's shutdown
+circuit and my junior year I was HV PM. My senior year, I became EECS lead, responsible for managing 35 EECS students directly while simultaneously
+working with the ME lead to organize the full 90 person team. I worked with sponsors to attain funding, create timelines,
+review all EECS designs, and decide overall car design.
+
+**In my year serving as Chief EECS Engineer FEB developed it's second car (SN2), the first one to drive and be fully
+fuctioning. I will focus on that car in this post.**
 
 # Problem Statement: FSAE EV
 
-![Cloudbreak](./images/cloudBreak.png)
+Each year SAE releases a new 150 page rule book for the same general competition. The competition revolves around teams building a
+formula style racing car to compete in a series of dynamic events: 1/4 mile acceleration, skipad, autocross, brake test,
+efficiency, and endurance. In addition, to dynamic events the competition consists of design and business events. These
+secondary events serve to ensure cars are created with good engineering and business first principles, in a reproducable
+manner like a car OEM.
 
-# Problem Statement: Destination Deep Space
+![FSAE Bonds](./images/berk_slo_collab.jpg)
 
-Each year [FIRST](https://www.firstinspires.org/) reveals a new game and give a 6 week design period for teams to
-prototype, design, and build an industrial sized robot. Each game requires 2 alliances, comprised of 3 robots each,
-to compete against eachother to achieve certain goals, score more points, and ultimately win 2.5 min long
-matches.
+# SN2 Architecture
 
-In 2019 the goal of the game, [Destination: Deep Space](https://firstfrc.blob.core.windows.net/frc2019/Manual/2019FRCGameSeasonManual.pdf),
-was to fill two "rockets" with large rubber balls called "fuel". However, the fuel would fall out of the
-rockets unless their exit holes are covered with circular polycarbonate "hatch panels". In the final 30
-seconds of the match there was an end game task of climbing onto a platform 1.5 feet off the ground.
+SN2 was designed with the goal to be rule complaint, manufacturable, safe, and to finish an endurance race. It had a 571.2V
+battery pack with a maximum power output of 80kW - approximately 110 horsepower. SN2 ran a single Emrax 228 motor with a
+rhinehart PM100DZ inverter. The car had a decentralized computing system, where nodes communicate with eachother over a CAN
+bus using STM32F446 microcontrollers. SN2 had an interactive driver heads up display, datalogging, and a telemetry system that
+fed data to a pit GUI. This allowed us to make data driven decisions in order to improve SN2 and prepare for SN3.
+
+![Myself Driving](./images/arya_driving.jpeg)
+
+# Accumulator (AKA High Voltage Battery)
+
+# Electrical Engineering
+
+# Computer Science

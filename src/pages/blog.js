@@ -17,7 +17,7 @@ const Container = styled.div(
 export default function Blog({ data }) {
   console.log(data);
   let description =
-    "I probably shouldn't have the ability to have a blog. But here it is.";
+    "This is my blog. I'm mostly gonna post things that I learned to remind myself.";
   return (
     <Container>
       <PageHead title="Blog" description={description} />
