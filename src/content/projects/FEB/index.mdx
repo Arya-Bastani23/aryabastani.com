@@ -14,12 +14,15 @@ thumb: images/febimage.jpg
 
 - As Chief EECS Engineer I oversaw/managed the design, implementation, and manufacturing of electric and software systems of a
   Formula SAE EV race car
+- As Chief EECS Engineer I oversaw/managed the design, implementation, and manufacturing of electric and software systems of a
+  Formula SAE EV race car
 - Manage a team of 35 designing more than 20 custom PCBs and custom firmware to create an electric race car with an 80kW
   powertrain, active telemetry system, and pit interface capable of going 80 mph while carrying a human safely
 - Optimize performance of system to inverter efficiently supply maximum amount of power without overheating battery of car
 - Project lead of low voltage power distribution board and ground station software/interface in previous years
 - Designed all hardware and firmware from scratch for a PCB switching between two power inputs supplying power to low
   voltage systems, tracks power draw data of systems, and communicates through CAN using a STM32F446 microcontroller
+- Joined team as a founding member with
 
 # Introduction
 
@@ -29,6 +32,7 @@ compete in the [SAE Formula EV competition](https://www.fsaeonline.com/). Every 
 carry a 5th percentile female to 95th percentile male and participate in a series of races: acceleration, endurance, and
 autocross.
 
+Fun fact the [fastest 0 to 60mph acceleration recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
 Fun fact the [fastest 0 to 60mph acceleration recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
 was set by FSAE competitor Green Team.
 
@@ -41,12 +45,18 @@ review all EECS designs, and decide overall car design.
 **In my year serving as Chief EECS Engineer FEB developed it's second car (SN2), the first one to drive and be fully
 fuctioning. I will focus on that car in this post.**
 
+**Disclaimer!! A lot of the components broken down below I did not personally design, but gave guidance, reviewed, and made sure
+worked properly as a full system. SN2 would be a pile of garbage without the great team behind it and SN1. I will do my
+best to give credit to goons that led these projects as they come up!**
+
+INSERT FULL TEAM PICTURE
+
 # Problem Statement: FSAE EV
 
-Each year SAE releases a new 150 page rule book for the same general competition. The competition revolves around teams building a
+Since 1981, each year Formula SAE releases a new 150 page rule book for the same general competition. The competition revolves around teams building a
 formula style racing car to compete in a series of dynamic events: 1/4 mile acceleration, skipad, autocross, brake test,
-efficiency, and endurance. In addition, to dynamic events the competition consists of design and business events. These
-secondary events serve to ensure cars are created with good engineering and business first principles, in a reproducable
+efficiency, and endurance. In addition, to dynamic events the competition consists of static events: design and business events. These
+secondary events serve to ensure cars are created with proper engineering and business first principles, in a reproducable
 manner like a car OEM.
 
 ![FSAE Bonds](./images/berk_slo_collab.jpg)
@@ -55,14 +65,203 @@ manner like a car OEM.
 
 SN2 was designed with the goal to be rule complaint, manufacturable, safe, and to finish an endurance race. It had a 571.2V
 battery pack with a maximum power output of 80kW - approximately 110 horsepower. SN2 ran a single Emrax 228 motor with a
-rhinehart PM100DZ inverter. The car had a decentralized computing system, where nodes communicate with eachother over a CAN
-bus using STM32F446 microcontrollers. SN2 had an interactive driver heads up display, datalogging, and a telemetry system that
-fed data to a pit GUI. This allowed us to make data driven decisions in order to improve SN2 and prepare for SN3.
+rhinehart PM100DZ inverter. The car had a decentralized computing system, where nodes - moslty made of custom PCB's architected
+around the STM32F446 microcontrollers - communicated with eachother over a CAN bus. SN2 had an interactive driver heads up display,
+datalogging, and a telemetry system that fed data to a pit GUI. This allowed us to make data driven decisions in order
+to improve SN2 and prepare for SN3.
 
 ![Myself Driving](./images/arya_driving.jpeg)
 
 # Accumulator (AKA High Voltage Battery)
 
+![Accumulator Side](./images/accumulator_side.png)
+
+The accumulators is the heart of the car, without SN2 would be a glorified shopping cart. That being said it was also the most
+difficult part of the car on the EECS side to prototype, design, and build. Building a functional accumulator is a true test of
+safety and good engineering practices, 9/10 times it's where FSAE teams fail.
+
+SN2's accumulator was broken up into two piece: the attic and segments housing. The segments housing was where the actual battery
+cells were, and the attic was where all of the safeguards and logic of the acculumator was.
+
+## The Segments Housing
+
+## The Cells
+
+SN2's accumulator was a 571.2V battery pack capable of 80kW of discharge. The pack was comprised of
+[energus modules](https://drive.google.com/file/d/13J72bW00z5FcrS1s2J84LHX0J47q02Jx/view?usp=sharing) made from Samsung 18650 cells.
+The modules were made of 4 18650 cells put in parallel, each module had 10Ah and 3.8 nominal voltage. The great part about these modules
+interfaced with bus bars with built in skrew threads, requiring no spot welding. In addition to this they had built in temperature
+sensors that were simple to connect with using a molex connection. The only problem with these modules were that they were very difficult
+to package: you can't take advantage of how cylindrical cells can lock together resulting in an overal larger battery size.
+The reason we chose these modules are because they did not require any spot welding, and the temperature sensors were built in.
+
+![Battery Module](./images/energus_module.png)
+
+## Segments
+
+The accumulator had a few levels of "battery abstraction". The lowest level was called the "cell" this was the actual cylindrical Samsung
+18650 batteries, the next was the "module" which were the energus modules that put 4 of those 18650's in parallel allowing for 10Ah of discharge.
+The modules were still low voltage, we would put 17 of them in series in order to build up to a nominal voltage of 64.6V. We would call this
+HV set of modules a "segment". Finally we would put 8 segments in series to create the final "accumulator". The reason we split up the accumulator
+like this is due to safety. HV is dangerous, so by splitting the pack up, if something goes wrong the amount of energy that you're dealing with is smaller.
+
+![Battery Module](./images/segment_side.png)
+
+The segment was comprised of the energus modules, Batter Management System Daughter and Aux boards (I will cover this later), bus bars, and caps. They
+were designed in order to be easy to assemble, safe, and extremely compact. I would say they they were safe and extremely compact. The way
+this was accomplished was by realizing that the insulation that was already installed on the modules satisfied FSAE's rules requirements so we did not
+need to add any additional material on the sides, all we needed were caps to protect the bus bars and BMS boards that were stacked on top of the modules.
+In between the modules and the packs was the BMS daughterboard and aux boards which was great for packaging
+
+INSERT SEGMENT STACK PIC
+
+I thought this was a great idea initially, however it was in the end very difficult to assemble the segment requiring one to readjust a segment being
+aseembled constantly in order to get a different angle to install a bus bar, temp sensor, etc. An adverse affect of this was that if any stress was
+put on the green insulation of the modules they would tear, and moving the segments around so much during assembly would cause this to happen quiet often.
+
+INSERT SEGMENT ASSEMBLY PIC
+
+In addition to the difficultly of assembly, these caps made it essentially impossible to debug the BMS boards on the segments once the caps were installed.
+They completely covered the system and didn't allow for any probing to be done and all the indicator LEDs were covered. So anytime a problem was found the
+entire segment needed to be disassembled.
+
+INSERT SAD SEGMENT DEBUGGING PIC
+
+My final note about the segments is that working with them truly allowed me to appreciate the dangers of HV. It is not something to be played with and
+should be respected for its ability to do real permanent damage to a person. As a result I made this HV safety tutorial that I thought would be good to
+make open source. Below is a result of a close call we had when dealing with segment testing. NEVER RUSH and ALWAYS have an exact plan when dealing with
+HV systems.
+
+INSERT BLOWN UP MODULE PIC
+
+## Intersegment Connections
+
+One of the great mechanical advances that was made in SN2's battery pack was the intersegment connection. In the previous year we used
+[radlock connectors](https://www.amphenol-industrial.de/en/Radlok-Connectors), which I love for prototyping and testing idea. However for real use in
+an FSAE vehicle, they package very poorly and require a lot of force to remove which causes problems when working with them in a small battery pack.
+
+This was due to the fact they took fully insulated wiring as an input - insulation adds a lot of volume compared to a bare bus bar or wire, and you cannot
+do 90 deg or shart turns with wire.
+
+INSERT PIC OF RADLOCKS BEING BAD
+
+For we used bus bars with moles pins on the ends of them in order to do intersegment connections. Bus bars are great for packaging because you make their
+internal surface area whatever you want to meet your packaging needs, and they can be made to go in different angles very easily. It is all up to your
+imagination and machining capability.
+
+INSERT PIC OF BUSBARS
+
+The way the bus bar interfaced with the segments was simply with a molex pin and socket that was spec'd for high current and voltage applications. There was
+no locking on the pin which allowed for easy installation and removal. However it is important to have some sort of "positive locking" in the system so vibrations
+of the car don't cause the bus bars to come out and cause issues. The way we achieved this "positive locking" was the lid of the pack went directly onto the bus bars
+and pressed down on them so there was no way that they could get jostled out. The bus bars had properly spec'd heat shrink everywhere but the pin connection and
+the pack lid had a thick layer of insulating foam, so there was no chance of the metal lid shorting the system.
+
+INSERT PIC OF SYSTEM AND ALSO COMP PICS
+
+## BBB: Big Battery Board
+
+The Big Battery Board AKA the BBB was the brain of SN2's accumulator. It was responsible for handling all information pertaining to the accumulator, sending
+pertinant info to the rest of the car, making sure the battery was in a safe condition, and shutting of the system if it wasn't.
+
+This board was made out of a hatred for harnessing born from working on SN1's pack. Inside SN1's attic there was 5 custom PCBS's: BMS Mother Board, HV Indicator
+Light Driver, IMD Driver, Precharge Circuit, HV Fusing. After realizing that each board had almost the same inputs and outputs, we decided to consolidate
+them all into a single board called the BBB, which reduced the time and complexity of harnessing exponentially!
+
+INSERT BEFORE AND AFTER PICTURE
+
+A huge additional benefit of integrating all these boards on a single system with a microcontroller is that if one fails we can both have an indicator light
+and send a failure message over CAN to indicate where the shutdown cicuit was initiated from. Shoutout Nikhil Ograin for making this thing so well!
+
+### BBB: BMS
+
+The BMS had a 3 level architecture: mother board, daughter board, and aux board.
+
+INSERT DIAGRAM
+
+#### BMS Mother Board
+
+The mother board was the orchestrator of the system. It would control all the daughter boards, communicate the state of the battery to the rest of the car,
+ensure the battery stays in an acceptable voltage range and temperature, and shutdown the system if it was in a dangerous state. All things considered the
+motherboard was essentially a microcontroller with the correct break out to read and control outside components. It would take in the isoSPI signal from the
+cells convert it to CAN and communicate the info to the rest of the car. In addition if anything was unsafe it was a part of the shutdown loop and would
+begin shutdown if needed.
+
+INSERT BMS MOTHER BOARD SCHEMATIC
+
+#### BMS Daughter Board
+
+The daughter boards design was centered around the LTC6811-1, it was a great solution for our needs. The chip is is capable of measuring cell voltage, enable cell discharge,
+GPIO, ADC, and isolated communication for 5-12 battery cells. The reason we used two of these chips on each aux board is because they were only capable of up to managing 12
+cells and we had 17 modules in each segment. They interfaced with the aux board through a pin connection like an arduino shield.
+
+INSERT PIC OF TWO DAUGHTER BOARDS ON AUX BOARD
+
+Once we had this IC we just need to figure out a way to give it power, and how to get them to work with our temp
+sensors. For the most part we followed the recommended exmample given in it's data sheet. To power the chip we used an LT3990 buck converter that dropped down HV
+from the segments to 5V, again not really changing much from the schematic. The LTC6811-1 only had 5 GPIO pins and only two of them were 2 ADC pins. So we would not be able to feed in all the temp sensor
+data directly into it. To tackle this we used two 1:8 MUX that would take each read the same temperature signals and send them to both ADC pins. We controlled the mux
+with the remaining 3 GPIO pins 2^3 = 8, so you command 8 different signals.
+
+INSERT DAUGHTERBOARD SCHEMATIC AND
+
+Additionally this setup required minimal harnessing, because iso-SPI allowed all the daughter boards to be daisy chained together.
+
+#### BMS Auxillary Board
+
+The Auxillary boards served to essnetially gather all the signals needed by the daughter boards, and also hold the cell balancing transistors and resistors. For each
+module the segment had 4 components that were repeated across the board: temp sensor driver, fusing, RC filter on voltage, and balancing circuit. The ladder were combinded into
+a single circuit block in design.
+
+INSERT FULL AUX BOARD PICTURE
+
+The temperature signal outputted by the energus module was from a temperature sensitive diode. So we needed to provide a voltage and then measure
+the forward voltage of the diode, here we do that with the 5V and 680V resistor. From there we just have an RC filter to have a stable output as it'll
+go directly to the daughter board.
+
+INSERT PICTURE OF TEMP sensor
+
+The cell balancing sub circuit has an input fuse that will protect the rest of the system if the module shorts. The RC filter on the voltage ensures a stable
+signal as this gets fed straight into the daughterboard. Then there's the actual balancing circuit, which is just a P-MOS that acts as a switch connected to
+a resistor. Whenever you need to bleed voltage of a module the daughter board will control this to close the loop of the module with the resistor. The LED is just
+there as an indicator for when we're doing balancing.
+
+INSERT BALANCING
+
+### BBB: E meter
+
+### BBB: HV LIGHT
+
+### BBB: IMD Driver
+
+### BBB: HV -> LV Power Converter
+
+### Accumulator Isolation Relays: AIRs
+
+### Fan Drivers
+
 # Electrical Engineering
 
+## APPS
+
+## Pre-charge and Discharge
+
+# Powertrain
+
+## Inverter
+
+## Cooling
+
 # Computer Science
+
+## State Machine
+
+# Appreciation!
+
+Tied with the ML research I did, the work I did on Formula Electric at Berkeley was by far what I am most proud of. It anything but easy at times,
+but working with such a smart, kind, and driven group made it worth it.
+
+Shoutout to the rest of the FEB 2022-2023 team who all had an equal part in making this car possible!
+EECS: Teddy Zhang, Rod Bayliss, Nikhil Ograin, Andrew Mussell, Pranav Pomalapally, Aman Doshi, Evan Sandoval
+Mech E: Chris Leafstrand, Weston White, Toshko Andreev, Ming Chin, Simon Huang, and Daniel Pack
+Business: Michael McCulloch and Sarah Cheng

@@ -77,9 +77,10 @@ const Home = ({ data }) => {
     <Container>
       <div>
         <h3>
-          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site
-          because I wanted to learn web dev, and apply it in the most
-          narcissistic way possible.
+          INSERT PHOTO GALLERY ON EACH PAGE Hello, I'm{" "}
+          <strong>Arya Bastani (🍦)</strong>. I created this site because I
+          wanted to learn web dev, and apply it in the most narcissistic way
+          possible.
         </h3>
         <h3>
           I'm gonna go over projects I've worked on that I think are note worthy
