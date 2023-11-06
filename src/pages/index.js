@@ -88,7 +88,7 @@ const Home = ({ data }) => {
         <p>
           I also graduated from{" "}
           <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
-            <strong>UC Berkeley </strong>
+            <strong>Berkeley </strong>
           </a>
           before. 🐻
         </p>
