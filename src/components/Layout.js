@@ -122,13 +122,13 @@ export default function Layout({ children }) {
           <Footer>
             Designed and built by Arya Bastani. In whatever town I'm in right
             now. <br />
-            {/* <a
+            <a
               href="https://patrickyoussef.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Aided significantly by patrickyoussef.com
-            </a> */}
+            </a>
           </Footer>
         </ContentWidth>
       </LimitedWidth>
