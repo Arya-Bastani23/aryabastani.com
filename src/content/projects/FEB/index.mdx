@@ -24,6 +24,8 @@ thumb: images/febimage.jpg
   voltage systems, tracks power draw data of systems, and communicates through CAN using a STM32F446 microcontroller
 - Joined team as a founding member with
 
+# [Photo Album](https://photos.app.goo.gl/55bmf2f8Vo1RnfF58)
+
 # Introduction
 
 [Formula Electric at Berkeley](https://ev.berkeley.edu/) is club at the University of California: Berkeley. The club has
@@ -75,6 +77,8 @@ to improve SN2 and prepare for SN3.
 # Accumulator (AKA High Voltage Battery)
 
 ![Accumulator Side](./images/accumulator_side.png)
+
+![Accumulator B&W](./images/accumulator_black_and_white.png)
 
 The accumulators is the heart of the car, without SN2 would be a glorified shopping cart. That being said it was also the most
 difficult part of the car on the EECS side to prototype, design, and build. Building a functional accumulator is a true test of
@@ -173,13 +177,13 @@ INSERT BEFORE AND AFTER PICTURE
 A huge additional benefit of integrating all these boards on a single system with a microcontroller is that if one fails we can both have an indicator light
 and send a failure message over CAN to indicate where the shutdown cicuit was initiated from. Shoutout Nikhil Ograin for making this thing so well!
 
-### BBB: BMS
+## BBB: BMS
 
 The BMS had a 3 level architecture: mother board, daughter board, and aux board.
 
 INSERT DIAGRAM
 
-#### BMS Mother Board
+## BMS Mother Board
 
 The mother board was the orchestrator of the system. It would control all the daughter boards, communicate the state of the battery to the rest of the car,
 ensure the battery stays in an acceptable voltage range and temperature, and shutdown the system if it was in a dangerous state. All things considered the
@@ -189,7 +193,7 @@ begin shutdown if needed.
 
 INSERT BMS MOTHER BOARD SCHEMATIC
 
-#### BMS Daughter Board
+## BMS Daughter Board
 
 The daughter boards design was centered around the LTC6811-1, it was a great solution for our needs. The chip is is capable of measuring cell voltage, enable cell discharge,
 GPIO, ADC, and isolated communication for 5-12 battery cells. The reason we used two of these chips on each aux board is because they were only capable of up to managing 12
@@ -207,7 +211,7 @@ INSERT DAUGHTERBOARD SCHEMATIC AND
 
 Additionally this setup required minimal harnessing, because iso-SPI allowed all the daughter boards to be daisy chained together.
 
-#### BMS Auxillary Board
+## BMS Auxillary Board
 
 The Auxillary boards served to essnetially gather all the signals needed by the daughter boards, and also hold the cell balancing transistors and resistors. For each
 module the segment had 4 components that were repeated across the board: temp sensor driver, fusing, RC filter on voltage, and balancing circuit. The ladder were combinded into
@@ -228,23 +232,67 @@ there as an indicator for when we're doing balancing.
 
 INSERT BALANCING
 
-### BBB: E meter
+## BBB: E meter
+In order to measure the full HV voltage and current on the system we were presented with two options. Build systems that could do these functions, or get an off the 
+shelf solution. We found the [IVT S-Series Current Sensor](https://www.isabellenhuetteusa.com/product/ivt-s-series/). It was a solution that perfectly fit our use case 
+and would save us many engineering hours, so we opted to use it over a fully custom solution. It worked great, it had a high current measurement sensor and 2 HV capable 
+voltage sensors and would automatically send it's measurements over CAN. All it needed from the BBB was power. The BMS would use this sensore to inform battery safety and
+since the sensor was built so well we never had any issues and could truly trust the battery was safe.
+
+INSERT IVT PIC
 
 ### BBB: HV LIGHT
+Per FSAE rules 
 
-### BBB: IMD Driver
+### BBB: Isolation Monitoring Device (IMD) Driver
+FSAE (very wisely) also required all teams to include all teams to have an isolation monitoring device in their battery that would test for isolation between HV ground and 
+LV ground in the car. For safety reasons and per the rules they were required to be isolated. FSAE didn't trust teams to spec or design a sensor to test for this isolation,
+they just made all teams use the [Bender ISOMETER® IR155-3203/IR155-3204](https://www.bender.de/fileadmin/content/Products/d/e/IR155-32xx-V004_D00115_D_XXEN.pdf). Looking back
+on it, the sensor was pretty neat. Doing everything analogue, it would create pulses of 150V potential difference between LV and HV ground. Then it would measure voltage difference
+between the two during the pulses and confirm they looked alright. Based on this the sensors sends out a binary yes/no on if there are no isolation faults. The yes/no signal is
+sent as a voltage of Vdd-2 for yes and 0V for no. We drop this down to 3.3 volts and compare it to a hard coded 1.5V to check if there's any isolation faults. If there are faults
+we open the shutdown circuit. In addition we have an SR latch in the system to make sure that the shutdown circuit can't be closed again until it's reset. This is for safety, as
+there is a scenario were you can have isolation faults intermittently, but you want to shut down the system immediately after the first one for good.
 
-### BBB: HV -> LV Power Converter
+INSERT IMD DRIVER SCHEMATIC
 
-### Accumulator Isolation Relays: AIRs
+{/* ### BBB: HV -> LV Power Converter */}
 
-### Fan Drivers
+## Accumulator Isolation Relays: AIRs
+These are pretty much just big switches. These go in between the output of the battery and the rest of the car, one on HV + and one on HV -. When the car is ready to drive after 
+all the safety checks happen these switches close and power can flow out of the battery to the rest of the car. The whole point of the shutdown circuit is to open these switches
+when something goes wrong in the car. The AIR's are simple but important.
+
+INSERT AIR PIC
+
+## Fan and Fan Drivers
+Sadly cooling was an after thought on SN2. We had no simulations to back up any claims we had. But, we knew that adding fans could only help our system be more efficient (for the most part).
+Following this trian of thought we slapped 12 [Sanyo Denki 9WPA0624P4G001](https://www.digikey.com/en/products/detail/sanyo-denki-america-inc/9WPA0624P4G001/13170607) fans on the thing and
+called it a day. We split them up into 4 groups of 3, each group was controlled individually using 4 125kHz PWM signals. Each fan also had a tachnometer, which would return a signal
+that showed how fast the fan was actually spinning, we used this to create a closed loop system to get fans to go the exact speed we wanted them to. 
+
+INSERT FAN SCHEMATIC PIC
+
+In the end, right before competition we removed the fans from the accumulator and sealed all the holes due to concerns over water proofing. So this system was never tested beyond the bench.
 
 # Electrical Engineering
 
+The Electrical Engineering team handled all EE tasks of the car outside of the accumulator. From a program management stand point this split helped with team managemment significantly. If the
+accumulator of the car it's heart, the EE team was in charge of delevoping the car's nervous system and motor function. It designed the systems to take in all the sensory input of the car, 
+analyze it, and then either: store, display, or use that induce/adjust movement from the car. This subteam worked closely with the CS subteam in integration hell, getting all the sub systems to
+work together like an orchestra.
+
 ## APPS
 
+## BSPD
+
 ## Pre-charge and Discharge
+
+## Shutdown Circuit
+
+## Steering Wheel
+
+## ECU
 
 # Powertrain
 
