@@ -10,8 +10,6 @@ excerpt: "Stuffs."
 thumb: images/amped_bike.jpg
 ---
 
-# [Photo Album](https://photos.app.goo.gl/cWPPMNzK5nw2ipwP8)
-
 # TLDR;
 
 - Lead Electrical Engineering and Computer Science Team in the development of high voltage and low voltage electrical
@@ -19,3 +17,85 @@ systems, software, mobile and desktop application of an IoT enable class 2 elect
 - Built fully functional initial prototype using a decentralized system using STM32 dev boards communicating through CAN
 - Designed systems for a remote unlock of bike with smart phone and connectivity to the cloud in order to track various metrics
 through use of Raspberry Pi with Comodule board and API’s
+
+# [Photo Album](https://photos.app.goo.gl/cWPPMNzK5nw2ipwP8)
+
+# Introduction
+
+Amped Emotos was a startup I was a founding engineer of. The goal of the company was to create a moto style bike
+that was electric for both consumer and fleet vehivle applications. The company was started the summer of my sophomore year at 
+UC erkeley, and was made up of a group of 10. There were 4 engineers (3 mechanical engineers and myself), 5 business people, 
+and the CEO. The engineering team started completely from scratch and in 3 months was able to build a fully functioning 
+prototype motorbike capable of 60 mph! We named the prototype Katara.
+
+INSERT PIC OF FINAL PRODUCT
+
+My role on the team was Chief Electrical Engineer and Computer Scientist - which meant I led the development of everything 
+that had power going through it. I was the only EE or CS person on the team, so getting a fully functioning prototype working 
+in 3 months was definetly a huge personal challenge and accomplishment. 
+
+In this project post, I'm going to breakdown Katara's architecture and go into detail on the subsystems I lead the development of.
+
+# Problem Statement: Build a protoype quickly & for cheap
+
+The problem statement for the summer was to build a moto style bike that was capable of 
+
+INSERT BUGDET BREAKDOWNS AND NEEDS
+
+
+# Katara's Architecture
+
+I joined this project with 2 years of experience on Formula Electric at Berkeley, because of that I tried to mimic that system 
+as much as possible.
+
+Katara was designed to be a distributed system with the cabality of simple expansion. This was acomplished by the use of CAN being
+the main form of communication between nodes of the vehicle. CAN allows for an easy addition of nodes to a distributed system, and this
+was essential for us. As the intention was to build baseline funcationlity first then gradually add more sensors and features as we went.
+
+That being said there were a few main nodes of the system: Electronic Control Unit (ECU), Battery Management System (BMS), Motor Controller, 
+and Data Control Unit (DCU). The system had a INSERT BATTERY SPEC, INSERT MOTOR, being controlled by a Blank motor controller
+
+In the development of the initial prototype I was bottlnecked by a few things: manufacturing capabilities, small budget, and 
+lack of engineering hours. As a result of these constraings, I decided very early on to buy as many things off the shelf
+as possible for a first prototype.
+
+# Battery
+
+# Electronic Control Unit
+
+# Motor
+
+# Motor Controller
+
+# Data Control Unit
+
+
+{/* ## Mechanical Side
+
+In the development of an initial prototype the the mechanical team was bottlenecked by manufacturing capabilities and cost. I think
+these limiters really forced them to think outside of the box. 
+
+For example, when designing the chassis we decided to go with a series of CNC's plates that were fastened together. This was a very 
+unconventional way of designing a motorbike chasis, however 
+
+
+ opposed to doing a tube style frame which would require a significant
+a
+bottleneck
+
+## EECS Side */}
+
+
+
+
+
+
+
+# Conclusion
+
+Although my only focus was on the engineering side of this project, this project definetly taught me how important the 
+business side of a company is. That summer we built an amazing prototype that was perfect as a first step towards a real product.
+However you can build a great product, but if the market doesn't need/want that product you end up just wasting your time. Sadly, in the
+end Amped Emotos failed because the e bike market is so saturated, and not enough market research was done to confirm the niche
+we were creating for actually existed. In the end, it was a great experience and I'm so happy to have been apart of such a fun and
+motivated team!

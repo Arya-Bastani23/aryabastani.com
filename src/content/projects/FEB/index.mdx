@@ -35,7 +35,6 @@ carry a 5th percentile female to 95th percentile male and participate in a serie
 autocross.
 
 Fun fact the [fastest 0 to 60mph acceleration recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
-Fun fact the [fastest 0 to 60mph acceleration recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
 was set by FSAE competitor Green Team.
 
 Formula Electric at Berkeley (FEB) was created in the Spring of 2020 from the remnants of the Berkeley Hyperloop Team. I
@@ -286,11 +285,41 @@ work together like an orchestra.
 
 ## BSPD
 
-## Pre-charge and Discharge
-
 ## Shutdown Circuit
 
+## Pre-charge and Discharge
+
+The purpose of the pre-charge and discharge circuit was for pure safety. The reason they're needed is due to the large capacitors in the motor controller.
+Once the car is ready to drive the motor controller gets connected to the battery, and once that happens the capacitors in the motor controller will
+charge to the same voltage as the battery pack. 
+
+The way the precharge system works is that once the car is ready to drive, before you close the main AIRs you on the + side you close a different line
+with a large resistance on it. 
+
+INSERT PICTURE
+
+What this does is that it reduces the amount of current capable of going through the system, making it so the capacitor in the motor controller slowly
+reaches the same voltage as the battery pack. Then using the IVT current and voltage sensor we can measure the capacitor voltage of the motor controller
+and close the main + AIR once it reaches 90% of the main pack voltage. 
+
+The reason the precharge is there is due to INSERT MATH I DON'T WANNA DO IT ON THE PLANE, once you connect the battery and motor controller there will
+be a large in rush of current going to the motor controller. This is really bad, as this large current surge could potentially fuse the contactors in
+the AIR's we talked about above. The whole point of the AIRs are that they're supposed to open when the car's unsafe, but if they're welded together
+due this can't happen. In addition the inrush of current can also generate enough EMI to break other commponents in or around the motor controller. 
+
+The way the discharge works is essentially the same way the precharge system works. Once we turn the car off, we connect the + side of the motor controller'S
+power input to a resistor that's connected to ground. What this does is it drains all the excess voltage from the motor controller capacitor and bleeds it 
+through the resistor till it reaches 0V.
+
+INSERT PICTURE
+
+Now the reason for the discharge circuit is that if we were to leave the motor controller without discharging it if someone were to touch it's + and -
+inputs they would be shocked with HV. This would be really bad, and potentially fatal. So we drain all that energy through a resistor so there's no safety
+concern and you can handle the motor controller with ease of mind.
+
 ## Steering Wheel
+
+The steering wheel is the only interface the driver's hands had with SN2
 
 ## ECU
 
