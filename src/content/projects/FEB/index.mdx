@@ -37,6 +37,14 @@ autocross.
 Fun fact the [fastest 0 to 60mph acceleration recorded by an electric car](https://www.npr.org/2022/10/14/1128923148/german-students-break-the-world-record-for-fastest-accelerating-electric-car-aga#:~:text=be%20long%20gone.-,The%20electric%20racing%20car%2C%20built%20by%2020%20University%20of%20Stuttgart,hour%20in%20just%201.461%20seconds.)
 was set by FSAE competitor Green Team.
 
+{/* <p align="center">
+  <iframe
+    width="420"
+    height="315"
+    src="https://www.youtube.com/watch?v=xjDK0LhKkMs"
+  ></iframe>
+</p> */}
+
 Formula Electric at Berkeley (FEB) was created in the Spring of 2020 from the remnants of the Berkeley Hyperloop Team. I
 joined the team as a freshman the semester it was created. My freshman and sophomore year I developed the car's shutdown
 circuit and my junior year I was HV PM. My senior year, I became EECS lead, responsible for managing 35 EECS students directly while simultaneously
@@ -178,7 +186,8 @@ and send a failure message over CAN to indicate where the shutdown cicuit was in
 
 ## BBB: BMS
 
-The BMS had a 3 level architecture: mother board, daughter board, and aux board.
+The BMS had a 3 level architecture: mother board, daughter board, and aux board. All together they collected data to confirm the battery was safe, and shutdown 
+the car if it wasn't.
 
 INSERT DIAGRAM
 
@@ -281,11 +290,134 @@ accumulator of the car it's heart, the EE team was in charge of delevoping the c
 analyze it, and then either: store, display, or use that induce/adjust movement from the car. This subteam worked closely with the CS subteam in integration hell, getting all the sub systems to
 work together like an orchestra.
 
-## APPS
-
-## BSPD
-
 ## Shutdown Circuit
+
+The shutdown circuit is the car's main safety system, and is the most strutinized part of the car during inspection. The easiest way to explain the shutdown circuit is to work
+backwards. The last part of the shutdown circuit is the AIR's that were talked about above, the entire purpose of the circuit is to do a series of safety checks before closing 
+the AIRs and as the car operates open the AIRs if the car gets into a failure state. The way that this is accomplished is by having the shutdown circuit be the AIR's coil power
+path. So every node of the car that is part of the shutdown path can be thought of as a switch that is inline with the coil power path of the AIR's. Now if those nodes are 
+operating in a favorable state they will close their switch, and if all the nodes close their switch the AIR's will close and the car can be operated. However, once a single 
+node reaches an infavorable state it's switch will open, the AIR's coil will no longer recieve power, the AIR will open, the car will shutdown, and the car will no longer be able
+to drive. That being said all the LV functions of the car will still operate as normal, because the shutdown circuit only opens the AIR's when shutdown happens. This system is 
+pretty intuitive when you grasp the concept, but alwasy difficult to teach people in my opinion as they ofetn get stuck on small details.
+
+INSERT IMAGE
+
+So moving foward if any board is part of the shutdown loop, that simply means it has a relay that will open when it reaches a failure state. 
+
+## Common Circuit Blocks
+
+Between PCB's there is a significant amount of overlap, for example power input, CAN communication, use of a micro controller, etc. So it makes sense to create these
+elements in a vacuum so they can be copy and pasted into all designs with ease. This has a huge number of benefits: reduction of overal design time, easier debug time, 
+more consistency, and allows designers to focus on board functionality instead of small details. Additionally it allows for a smaller barrier of entry for younger members 
+as the foundation of their board is now already designed.
+
+## Common Circuit Blocks: MicroBasic
+
+The microbasic common circuit block allows a designer to simply add microcontroller functionality and CAN communication to their board. The circuit is designed to 
+be have an arduino like shield interface. So all microbasics have the same form factor and can be swapped between boards.
+
+INSERT SHIELD PICTURE
+
+The microbasic circuit block was designed around the STM32F446RE  microcontroller, so it had a wide range of functionality. It has a single core that can clock up to 180Mhz, 
+128kB of RAM, and 512kB of flash. It has a variety of IO which is important for our use cases: 2 CAN (Controller Area Network )bus, 3 SPI (Serial Peripheral Interface) bus
+4 I2C bus, 2 UART (Universal asynchronous receiver-transmitter), 4 USART (Universal Synchronous/Asynchronous Receiver/Transmitter), 3 Analog to Digital Converter (ADC) 
+with 14 multiplexed channels, and almost any pin can be used as GPIO (General Purpose Input and Output). By default the STM32 It has an internal clock of 16MHz with 1% accuracy 
+(which is not very accurate), so we uses external [CSTNE8M00G550000R0](https://www.digikey.com/en/products/detail/murata-electronics/CSTNE8M00G550000R0/8747739) crystal 
+oscillator to provide better clock signal for the MCU. In order to flash code to the STM we use and an [STLink-V3 Mini](https://www.notion.so/SN1-MicroBasic-1deca4169f56468c99fa2c085f99298a?pvs=4#ab11aacb53344ac3afc457d902257981)
+that would flash the board through SWD (Serial Wire Debug).
+
+INSERT PICTURE
+
+The microbasic has 2 built in CAN transcievers, allowing a designer to leverage the 2 can buses available on the STM32.
+
+INSERT PIC
+
+The board gets 5V of power from pin 2 which is dropped down to 3.3V for the STM and CAN transcievers
+
+INSERT PIC
+
+The microbasic was a great board design, it was reliable and simple to use. I think our ability count on this design really allowed the EECS team to built reliable
+LV systems. 
+
+## LVPDB: Low Voltage Power Distribution Board
+
+The LVPDB was actually the first thing I ever worked on in FEB, so it has a special place in my heart. One could say it's the most important board of the whole 
+car, as without it none of the other boards could function lol. 
+
+The LVPDB was designed to be able to safely deliver LV power to all parts of the car while tracking the amount of power going through the system. The board took 
+a 24V power input from 2 12V drill batteries wired in series. We used drill batteries, because they are already water proofed so we didn't need worry about designing
+our own. The power from the input is then delivered to 3 24V branches and 1 12V branch, each of which is fused for protection and the 24V branches have a TPS2482 hotswap 
+controller in line. The reason there is a 12V branch is due to grandfathered systems fro SN1 we didn't want to change. 
+
+INSERT SCHEMATIC
+
+The way that we were able to ensure the fact that each branch had power being delivered safey was through a fuse initially. Then for all 24V branches the TPS2482 
+provide an extra layer of protection. The TPS2482 chip was a hotswap controller, usually used in computer towers so you can safely remove graphics cards. These
+chips provided overcurrent protection, power good, switching ability, as well as monitor voltage, current, and power drawn by each of the branches. The chips were
+connected to a microbasic, so all of this information was sent over CAN and stored by the data logging board. These chips were really great, as they provided protection
+while providing digitalized sensor readings that the microbasic could read.
+
+INSERT PICTURES
+
+
+## LV Harnessing
+
+The goal for LV harnessing was standardization and reliability. We wanted to minimize the number of wire runs in addition to unique connectors, crimps, and wires in
+the car. Accomplishing these 4 goals would make simplify manufacturing and servicing SN2 extensively. The standard components we chose were CAT5 cable with RJ45 connectors, 
+binder cables with binder connectors, and duraclick connectors for PCB's. 
+
+The way we decided to reduce the number of wire runs was to daisy chain all the PCB's with a single run of CAT5 cable running through the entire car. We were able to do
+this, by having an input and output ethernet port on each node of the car that was shorted together. CAT5 is a shielded cable with 8 wire strands made up from 4 sets of 
+twisted pairs. We used the CAT5 cable to route power and CAN messages to each board on the car, 2 of the pairs were for power and the other 2 were each inidvidual CAN buses. 
+We chose CAT5 because of it having so many individual strands in a single cable, a reliable industry standard, and it being easy to work with. The only out of the orginary
+thing we did with the CAT5 cable was deliver power over it. It is spec'd for 2.2A of consistent power, but we knew we'd probably be pushing a bit more than that. So to make 
+sure this was okay we set up a test rig that pushed 5A of power through the cable for a few hours and nothing happened. After that we decided it should be good to go. The CAT5
+cable didn't have any downsides in my opinion, I thought it was a great solution for our use case and really simplified wiring.
+
+INSERT CAT5 PIC
+
+For sensor inputs on boards and anything that wasn't CAN or power we used binder connectors and cables. These cables were grandfathered in from SN1 and were chose because of
+their water proofing. They were the cable we used for our shutdown circuit wiring and any general use case. To be honest they were very difficult to woby rk with, the wires were 
+held in place by skrew terminals and were easy to fall out, to connect a male and female binder you'd need to twist them together and this would often cause the cable to twist too
+and break things, and worst of all they were really expensive to be having all these problems. Overall I wish we'd chosed a differen't general purpose wire and connector system, and
+I believe they're doing so for SN3. 
+
+INSERT BINDER PIC
+
+## APPS: Accelerator Pedal Position Sensor
+
+The APPS is exactly what it sounds like. It's a sensor that read's the position of the accelerator pedal of the car, confirm the sensor reading is plausible, 
+then commands the motor controller to get the motor to spin. In addition to accelerator pedal positional readings the APPS collects front and rear brake pressure 
+transducer data. 
+
+We used a micro basic board in order to take in the sensor data, and then handle the plausibility checks of the sensors. If they seemed implausible we would disassemble
+the ability to command torque from the motor. In order to send torque commands to the motor controller, the micro controller would send CAN commands. 
+
+An additional feature that wasn't added before competition was to dynamically create torque commanding curves based on the state of the car. The motivation for this
+is that you want the car to be able to self regulate as the battery gets hotter and begins to behave in non-optimal ways. By rules no part of the car can reach a
+temperature of greater than 60C, so if your battery is at 55C and you continue to run the car at its maximum speed it'll hit 60C and now you'll have to
+wait for the battery to cool down. Instead of doing this, you should adaptively generate torque mappings reducing and increasing the maximum amount of torque
+the accelerator pedal can command based on different factors of the car. This will keep the car operating in an optimal state for longer. 
+
+INSERT PICTURE OF DYNAMIC TORQUE MAPPING curves
+
+The way this would work would be fairly simple. The ECU already collects all the data from the car so that node would take that data and generate the
+function, and then send it to the APPS over can. The APPS would then use that function to send optimal torque commands to the motor controller. This 
+system is very doable in the future, but during SN2's development we had limited battery data so we couldn't create proper torque curves.
+
+INSERT PICTURES OF THE APPS
+
+
+## BSPD: Brake System Plausibility Device
+
+The BSPD's purpose is to shutdown the car if the brake pedal is being pressed and there's power being sent to the car's inverter. This system is required, by the
+FSAE rule book for safety reasons. In addition it's fully analogue, which is also required by the rules. This system is split into two parts, because the brake 
+pedals are in the front of the car and the inverter is in the back of the car. The part in the footbox near the brake pedal handles the brake pedal input and
+ shutdown logic, and the part in the back of the car measures the power being delivered to the inverter. The system will shutdown the car if there is a short 
+in any of the BSPD's sensor inputs or if the brake pedal is being pressed while high power is beingdelivered to the inverter. 
+
+INSERT PICTURE
 
 ## Pre-charge and Discharge
 
@@ -319,23 +451,63 @@ concern and you can handle the motor controller with ease of mind.
 
 ## Steering Wheel
 
-The steering wheel is the only interface the driver's hands had with SN2
+The steering wheel - apart from the pedals - was the driver's only interface with SN2. On SN1 the steering wheel housed an entire rasberry pi and had 
+a built in screen. This was extremeley difficult to package and not reliabe. So for SN2 we opted to just have a series of knobs and buttons on the 
+steering wheel that would send commands over CAN to various parts of the car. We could map the buttons to anything we wanted, so it was very 
+versatille. I really liked how we opted for reliability and function over form here, I think it really helped us down the line. 
+
+INSERT SCHEMATIC AND STEERING WHEEL PICTURE
 
 ## ECU
+
+The ECU was designed to be the central data node of the car. The ECU served multiple purposes: data logging, data telemetry, driver data display, and generation
+of the APPS's torque curve. The reason that all of these functions were combined on one board is because each of them requires the same data from the car. 
+If this functionality was split between many boards it would flood our CAN bus with too many messages, so why not just combine it all into one board. The ECU 
+was a combination of a [Rasberry Pi 4](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/), an STM32F446RE Nucleo board, an
+[Xbee radio transcievers](https://learn.adafruit.com/xbee-radios/overview), and a display. 
+
+ INSERT CONNECTION BREAKDOWNS
+
+The way that system processed information was that the STM32 essentially was just there to translate CAN data to SPI and send it to the Pi to process. This board 
+needed to do a lot of things, so we leveraged its extra compute power to handle all these tasks. The thing other than CAN -> SPI translation the STM would do would 
+be using the information about the car from CAN to generate the APPS's torque curve. The Pi will do a few things once it gets the data: write all of it to .csv on the usb 
+inserted to it, send pertinant info to the Xbee seen by the pit interface, and also send pertinant information to the driver display over hdmi. 
+
+The main problem with this system was that we did not get an MVP working with just dev boards before we designed the PCB, so the PCB never worked and we ended up having
+to use a Rasperry Pi, nuclueo, and xbee boards ziptied together. This wasn't horrible, but was a waste of dev hours creating the PCB that ended up not working. The idea 
+of the board was really good though, because datalogging is what allows a team to take large leap by being able to make informed decisions based on the past.
 
 # Powertrain
 
 ## Inverter
 
+The inverter that we used was the Cascadia Motions Rinehart PM100DC Motor Controller. This motor controller was grandfathered in from SN1, but it was chosen
+for that car because it was commonly used throughout the competition. The motor controller was pretty difficult to get set up, but it was all laid out in the
+owner's manual of the system. 
+
+## Motor
+
+The motor that we used was the Emrax 228. Similiar to the inverter it was grandfathered into the system based on SN1. It was very common throughout the FSAE EV 
+comunity so we chose it because of that reason. The motor worked great with the inverter, and like the inverter all its setup instructions were laid out in its
+owner manual.
+
 ## Cooling
+
+The inverter and the motor were the only water cooled parts of the car. The setup was quite straight forward in theory, we had a radiator on the side of the car
+and a pump that would circuilate the water through it and keep it cool. The pump that we used was the [UAkron GRI INTG7 060](https://www.gripumps.com/pumps/intg7/).
+
+INSERT COOLING LOOP PICTURE
 
 # Computer Science
 
-## State Machine
+I don't feel like it's necessary to go into the specifics of the CS implementationf for each part of the car as it'll get boring quite fast. However, I think 
+it's important to go over our overall code diagram, that broke down where different parts of the codebase would be running on the car.
+
+## SN2 State Machine
 
 # Appreciation!
 
-Tied with the ML research I did, the work I did on Formula Electric at Berkeley was by far what I am most proud of. It anything but easy at times,
+Tied with the ML research I did, the work I did on Formula Electric at Berkeley was by far what I am most proud of. It was anything but easy at times,
 but working with such a smart, kind, and driven group made it worth it.
 
 Shoutout to the rest of the FEB 2022-2023 team who all had an equal part in making this car possible!

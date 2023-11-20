@@ -38,10 +38,9 @@ In this project post, I'm going to breakdown Katara's architecture and go into d
 
 # Problem Statement: Build a protoype quickly & for cheap
 
-The problem statement for the summer was to build a moto style bike that was capable of 
-
-INSERT BUGDET BREAKDOWNS AND NEEDS
-
+The problem statement for the summer was to build a moto style bike that was capable of going 100 miles at an average speed of 45mph and
+a max speed of 75mph. The bike would need to handle a wide variety of terrains, sutable for use both on and off roads. We had around $22,000
+to spend on parts and manufacturing of the system, so our budget was pretty tight. The prototype also needed to 
 
 # Katara's Architecture
 
@@ -53,43 +52,68 @@ the main form of communication between nodes of the vehicle. CAN allows for an e
 was essential for us. As the intention was to build baseline funcationlity first then gradually add more sensors and features as we went.
 
 That being said there were a few main nodes of the system: Electronic Control Unit (ECU), Battery Management System (BMS), Motor Controller, 
-and Data Control Unit (DCU). The system had a INSERT BATTERY SPEC, INSERT MOTOR, being controlled by a Blank motor controller
+and Data Control Unit (DCU). The system had a 6 kWh battery, with a motor capable of putting a maximum of 12 kW of power into the ground. 
 
 In the development of the initial prototype I was bottlnecked by a few things: manufacturing capabilities, small budget, and 
 lack of engineering hours. As a result of these constraings, I decided very early on to buy as many things off the shelf
 as possible for a first prototype.
 
+# Motor and Motor Controller
+
+We decided to go with a [10 KW BLDC Motor](https://goldenmotor.bike/product/48-volt-10kw-bldc-motor-air-cooled/) and a 
+[BAC 8000](https://www.acceleratedsystems.com/products/electric-motor-controllers/bac8000) motor controller. We went with the golden motors 
+system because it was the lightest option that met our power needs. The BAC 8000 was chosen because other people on the team who rode 
+electric street bikes where familiar with BAC products and how easy they were to work with.
+
 # Battery
+
+Based on the stats the business team gave us, the system needed to go 100 miles at 45 mph on a single charge as well as be capable of speeds up to 70 mph. 
+We reverse engineered the battery sizing based on these requirements. We chose to go with 2170 lithium ion cells, as they seemed to have the best energy density 
+on the market while also being capable of fast discharge. Once we had the cells chosen we could use their discharge curves along with the motor's power
+curves to figure out setup that met our requirements. 
+
+INSERT CURVE PICSs
+
+The final pack setup had 360 2170 cells in a 18P and 20S configuration. The pack's nominal voltage was 72V with 84Ah, and a maximum discharge rate of 64.8 kilowatts.
+We did not have the man power or time to design a custom BMS and assemble the pack in house, so for these reasons we had a local manufacturer built it for us. For the 
+BMS we had to use what the manufacturer offered, so the system ended up using a DALY smart BMS. This BMS had the same problem as most off the shelf BMS's it was really 
+large and didn't package very well with our system. Other than that and the fact that it used UART instead of CAN, it was fine. 
+
+In the end this battery was way overkill for the mechanical capability of the bike, but it was in line for what the original vision of the bike was.
 
 # Electronic Control Unit
 
-# Motor
+This is where most of my development time during the summer went, the ECU would be the thing that brought everything together and handle almost all the controls of 
+the bike. I really didn't have much experience with microcontroller development before this, after being Chief EECS of FEB I would've made half the mistakes and finished
+this part of the system in half the time. Looking back I realized I was asking myself the wrong questions half the time, but hey that's life.
 
-# Motor Controller
+INSERT FUNNY DEBUG PICTURE
 
-# Data Control Unit
+This node of the bike would: process all sensor input, control the motor controller, control the ILAS system, and log all CAN messaged. The microcontoller we chose to
+use was initially an Arduino MKR Zero, but it was intended for more of hobbyist use and didn't give much control. In the end we switched to the STM32F446RE. The board's 
+main function was to communicate throttle commands to the motor controller. It would take potentiometer readings from the driver's throttle, then translate them to torque 
+commands that were sent to the motor. In addition to this it logged all sensor data from the bike to an SD card. The sensors that was on the bike were the BMS voltage 
+and temperature monitors, an IMU, wheel speed sensors, and throttle input. In addition to sensor processing, the ECU was used to control the lights and other peripheral's 
+of the vehicle. We chose to do this programatically instead of having the used turn on and off switches in line with the power so later on we could add features so a user
+could remotely use the peripherals.
 
+# ILAS: Intelligent Load Adjustment System
 
-{/* ## Mechanical Side
+The ILAS system was an idea the team had to dynamically adjust the ride height of the vehicle on the fly. The benefit of this is that different applications
+benefit from a bike riding at different heights. For example if you're going off roading, or delvering goods you'd want to be higher off the ground to have 
+more clearance. However, if a user is trying to go fast they would benefit from being closer to the ground. 
 
-In the development of an initial prototype the the mechanical team was bottlenecked by manufacturing capabilities and cost. I think
-these limiters really forced them to think outside of the box. 
+The way we implemented this was by having a lead screw that would adjust the mounting position of the suspension. The system was designed so the lead screw 
+didn't take any load, so there were no reliability issues. The lead screw was powered with a [775 Pro](https://motors.vex.com/vexpro-motors/775pro#sljv8tn) motor 
+and a [Talon SRX motor controller](https://www.vexrobotics.com/217-8080.html). The ECU would send PWM signals to the Talon to control it. We had future plans 
+to have the system continuously adjust during a ride, but didn't have enough time to implement this. 
 
-For example, when designing the chassis we decided to go with a series of CNC's plates that were fastened together. This was a very 
-unconventional way of designing a motorbike chasis, however 
+# Telemetry
 
-
- opposed to doing a tube style frame which would require a significant
-a
-bottleneck
-
-## EECS Side */}
-
-
-
-
-
-
+One of the big selling points of our system would that it would be great as a fleet vehicle. The "fleet vehicle" features we wanted to implement as a part
+of our first prototype were: remote vehice control, GPS tracking, and data telemetry to "base station". We did not have the resources to build an in house
+solution for this, so we decided to [CoModule telemetry system](https://www.comodule.com/). This was a simple way to bring IoT capability to our product while 
+keeping our dev time and cost low. The CoModule system is really simple to work with, as they have ready to use API's that were easy to integrate. 
 
 # Conclusion
 

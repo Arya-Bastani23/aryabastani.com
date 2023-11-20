@@ -77,20 +77,20 @@ const Home = ({ data }) => {
     <Container>
       <div>
         <h3>
-          INSERT PHOTO GALLERY ON EACH PAGE Hello, I'm{" "}
-          <strong>Arya Bastani (🍦)</strong>. I created this site because I
-          wanted to learn web dev, and apply it in the most narcissistic way
-          possible.
+          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site
+          because I wanted to learn web dev, and apply it in the most
+          narcissistic way possible.
         </h3>
         <h3>
-          I'm gonna go over projects I've worked on that I think are note worthy
+          I'm gonna go over projects I've worked on that I show off my
+          capabilities as an engineer and leader.
         </h3>
         <p>
-          I also graduated from{" "}
+          I'm currently a SDE at AWS, and I also graduated from{" "}
           <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
-            <strong>Berkeley </strong>
+            <strong> UC Berkeley </strong>
           </a>
-          before. 🐻
+          in 2023. 🐻
         </p>
         <Socials />
       </div>
