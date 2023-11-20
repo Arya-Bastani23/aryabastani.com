@@ -54,11 +54,10 @@ review all EECS designs, and decide overall car design.
 **In my year serving as Chief EECS Engineer FEB developed it's second car (SN2), the first one to drive and be fully
 fuctioning. I will focus on that car in this post.**
 
-**Disclaimer!! A lot of the components broken down below I did not personally design, but gave guidance, reviewed, and made sure
-worked properly as a full system. SN2 would be a pile of garbage without the great team behind it and SN1. I will do my
-best to give credit to goons that led these projects as they come up!**
+Disclaimer!! A lot of the components broken down below I did not personally design, but gave guidance, reviewed, and made sure
+worked properly as a full system. I will do my best to give credit to goons that led these projects as they come up!
 
-INSERT FULL TEAM PICTURE
+![FEB People](./images/FEB_full_team.jpg)
 
 # Problem Statement: FSAE EV
 
@@ -124,26 +123,26 @@ this was accomplished was by realizing that the insulation that was already inst
 need to add any additional material on the sides, all we needed were caps to protect the bus bars and BMS boards that were stacked on top of the modules.
 In between the modules and the packs was the BMS daughterboard and aux boards which was great for packaging
 
-INSERT SEGMENT STACK PIC
+![Battery Module](./images/Segment_stack.jpeg)
 
 I thought this was a great idea initially, however it was in the end very difficult to assemble the segment requiring one to readjust a segment being
 aseembled constantly in order to get a different angle to install a bus bar, temp sensor, etc. An adverse affect of this was that if any stress was
 put on the green insulation of the modules they would tear, and moving the segments around so much during assembly would cause this to happen quiet often.
 
-INSERT SEGMENT ASSEMBLY PIC
+![Battery Module](./images/segment_stack_exposed.jpg)
 
 In addition to the difficultly of assembly, these caps made it essentially impossible to debug the BMS boards on the segments once the caps were installed.
 They completely covered the system and didn't allow for any probing to be done and all the indicator LEDs were covered. So anytime a problem was found the
 entire segment needed to be disassembled.
 
-INSERT SAD SEGMENT DEBUGGING PIC
+![Battery Module](./images/segment_group.jpg)
 
 My final note about the segments is that working with them truly allowed me to appreciate the dangers of HV. It is not something to be played with and
 should be respected for its ability to do real permanent damage to a person. As a result I made this HV safety tutorial that I thought would be good to
 make open source. Below is a result of a close call we had when dealing with segment testing. NEVER RUSH and ALWAYS have an exact plan when dealing with
 HV systems.
 
-INSERT BLOWN UP MODULE PIC
+![Battery Module](./images/blown_module.jpg)
 
 ## Intersegment Connections
 
@@ -154,13 +153,13 @@ an FSAE vehicle, they package very poorly and require a lot of force to remove w
 This was due to the fact they took fully insulated wiring as an input - insulation adds a lot of volume compared to a bare bus bar or wire, and you cannot
 do 90 deg or shart turns with wire.
 
-INSERT PIC OF RADLOCKS BEING BAD
+![radlock](./images/radlock.jpeg)
 
 For we used bus bars with moles pins on the ends of them in order to do intersegment connections. Bus bars are great for packaging because you make their
 internal surface area whatever you want to meet your packaging needs, and they can be made to go in different angles very easily. It is all up to your
 imagination and machining capability.
 
-INSERT PIC OF BUSBARS
+![Busbar Fit](./images/busbars.jpg)
 
 The way the bus bar interfaced with the segments was simply with a molex pin and socket that was spec'd for high current and voltage applications. There was
 no locking on the pin which allowed for easy installation and removal. However it is important to have some sort of "positive locking" in the system so vibrations
@@ -168,7 +167,7 @@ of the car don't cause the bus bars to come out and cause issues. The way we ach
 and pressed down on them so there was no way that they could get jostled out. The bus bars had properly spec'd heat shrink everywhere but the pin connection and
 the pack lid had a thick layer of insulating foam, so there was no chance of the metal lid shorting the system.
 
-INSERT PIC OF SYSTEM AND ALSO COMP PICS
+![Busbar Fit](./images/busbar_fit.jpg)
 
 ## BBB: Big Battery Board
 
@@ -177,19 +176,23 @@ pertinant info to the rest of the car, making sure the battery was in a safe con
 
 This board was made out of a hatred for harnessing born from working on SN1's pack. Inside SN1's attic there was 5 custom PCBS's: BMS Mother Board, HV Indicator
 Light Driver, IMD Driver, Precharge Circuit, HV Fusing. After realizing that each board had almost the same inputs and outputs, we decided to consolidate
-them all into a single board called the BBB, which reduced the time and complexity of harnessing exponentially!
+them all into a single board called the BBB, which reduced the time and complexity of harnessing exponentially! The following picture shows SN1's attic on the left 
+vs SN2's attic on the right, displaying how much smaller SN2's is.
 
-INSERT BEFORE AND AFTER PICTURE
+![BBB Before and after](./images/bbb_v1_vs_v2.jpg)
 
 A huge additional benefit of integrating all these boards on a single system with a microcontroller is that if one fails we can both have an indicator light
 and send a failure message over CAN to indicate where the shutdown cicuit was initiated from. Shoutout Nikhil Ograin for making this thing so well!
+
+![BBB assembled](./images/bbb_assembled.jpg)
+![BBB design](./images/bbb_design.png)
+![BBB layout](./images/bbb_footprint.png)
+
 
 ## BBB: BMS
 
 The BMS had a 3 level architecture: mother board, daughter board, and aux board. All together they collected data to confirm the battery was safe, and shutdown 
 the car if it wasn't.
-
-INSERT DIAGRAM
 
 ## BMS Mother Board
 
@@ -199,7 +202,8 @@ motherboard was essentially a microcontroller with the correct break out to read
 cells convert it to CAN and communicate the info to the rest of the car. In addition if anything was unsafe it was a part of the shutdown loop and would
 begin shutdown if needed.
 
-INSERT BMS MOTHER BOARD SCHEMATIC
+![BBB motherboard schematic](./images/bbb_motherboard_schematic.png)
+![BBB layout](./images/bbb_motherboard_highlight.png)
 
 ## BMS Daughter Board
 
@@ -207,7 +211,7 @@ The daughter boards design was centered around the LTC6811-1, it was a great sol
 GPIO, ADC, and isolated communication for 5-12 battery cells. The reason we used two of these chips on each aux board is because they were only capable of up to managing 12
 cells and we had 17 modules in each segment. They interfaced with the aux board through a pin connection like an arduino shield.
 
-INSERT PIC OF TWO DAUGHTER BOARDS ON AUX BOARD
+![stack](./images/bms_stack.png)
 
 Once we had this IC we just need to figure out a way to give it power, and how to get them to work with our temp
 sensors. For the most part we followed the recommended exmample given in it's data sheet. To power the chip we used an LT3990 buck converter that dropped down HV
@@ -215,7 +219,8 @@ from the segments to 5V, again not really changing much from the schematic. The 
 data directly into it. To tackle this we used two 1:8 MUX that would take each read the same temperature signals and send them to both ADC pins. We controlled the mux
 with the remaining 3 GPIO pins 2^3 = 8, so you command 8 different signals.
 
-INSERT DAUGHTERBOARD SCHEMATIC AND
+![Daughterboard layout](./images/daughter_layout.png)
+![Daughterboard layout](./images/daughter_schemm.png)
 
 Additionally this setup required minimal harnessing, because iso-SPI allowed all the daughter boards to be daisy chained together.
 
@@ -225,20 +230,20 @@ The Auxillary boards served to essnetially gather all the signals needed by the 
 module the segment had 4 components that were repeated across the board: temp sensor driver, fusing, RC filter on voltage, and balancing circuit. The ladder were combinded into
 a single circuit block in design.
 
-INSERT FULL AUX BOARD PICTURE
+![aux full](./images/aux-2.png)
 
 The temperature signal outputted by the energus module was from a temperature sensitive diode. So we needed to provide a voltage and then measure
 the forward voltage of the diode, here we do that with the 5V and 680V resistor. From there we just have an RC filter to have a stable output as it'll
 go directly to the daughter board.
 
-INSERT PICTURE OF TEMP sensor
+![aux temp](./images/aux-temp.png)
 
 The cell balancing sub circuit has an input fuse that will protect the rest of the system if the module shorts. The RC filter on the voltage ensures a stable
 signal as this gets fed straight into the daughterboard. Then there's the actual balancing circuit, which is just a P-MOS that acts as a switch connected to
 a resistor. Whenever you need to bleed voltage of a module the daughter board will control this to close the loop of the module with the resistor. The LED is just
 there as an indicator for when we're doing balancing.
 
-INSERT BALANCING
+![aux temp](./images/aux_balance.png)
 
 ## BBB: E meter
 In order to measure the full HV voltage and current on the system we were presented with two options. Build systems that could do these functions, or get an off the 
@@ -247,10 +252,12 @@ and would save us many engineering hours, so we opted to use it over a fully cus
 voltage sensors and would automatically send it's measurements over CAN. All it needed from the BBB was power. The BMS would use this sensore to inform battery safety and
 since the sensor was built so well we never had any issues and could truly trust the battery was safe.
 
-INSERT IVT PIC
+![ivt](./images/ivt.jpeg)
 
-### BBB: HV LIGHT
-Per FSAE rules 
+
+{/* ### BBB: HV LIGHT
+
+Per FSAE rules  */}
 
 ### BBB: Isolation Monitoring Device (IMD) Driver
 FSAE (very wisely) also required all teams to include all teams to have an isolation monitoring device in their battery that would test for isolation between HV ground and 
@@ -262,7 +269,9 @@ sent as a voltage of Vdd-2 for yes and 0V for no. We drop this down to 3.3 volts
 we open the shutdown circuit. In addition we have an SR latch in the system to make sure that the shutdown circuit can't be closed again until it's reset. This is for safety, as
 there is a scenario were you can have isolation faults intermittently, but you want to shut down the system immediately after the first one for good.
 
-INSERT IMD DRIVER SCHEMATIC
+![imd](./images/imd.jpg)
+
+![imd driver schem](./images/imd_schem.png)
 
 {/* ### BBB: HV -> LV Power Converter */}
 
@@ -271,7 +280,7 @@ These are pretty much just big switches. These go in between the output of the b
 all the safety checks happen these switches close and power can flow out of the battery to the rest of the car. The whole point of the shutdown circuit is to open these switches
 when something goes wrong in the car. The AIR's are simple but important.
 
-INSERT AIR PIC
+![air](./images/air.png)
 
 ## Fan and Fan Drivers
 Sadly cooling was an after thought on SN2. We had no simulations to back up any claims we had. But, we knew that adding fans could only help our system be more efficient (for the most part).
@@ -279,7 +288,8 @@ Following this trian of thought we slapped 12 [Sanyo Denki 9WPA0624P4G001](https
 called it a day. We split them up into 4 groups of 3, each group was controlled individually using 4 125kHz PWM signals. Each fan also had a tachnometer, which would return a signal
 that showed how fast the fan was actually spinning, we used this to create a closed loop system to get fans to go the exact speed we wanted them to. 
 
-INSERT FAN SCHEMATIC PIC
+![fans](./images/fans.jpg)
+![fans schem](./images/fans_selection.png)
 
 In the end, right before competition we removed the fans from the accumulator and sealed all the holes due to concerns over water proofing. So this system was never tested beyond the bench.
 
@@ -301,7 +311,7 @@ node reaches an infavorable state it's switch will open, the AIR's coil will no 
 to drive. That being said all the LV functions of the car will still operate as normal, because the shutdown circuit only opens the AIR's when shutdown happens. This system is 
 pretty intuitive when you grasp the concept, but alwasy difficult to teach people in my opinion as they ofetn get stuck on small details.
 
-INSERT IMAGE
+![shutdown](./images/shutdown.png)
 
 So moving foward if any board is part of the shutdown loop, that simply means it has a relay that will open when it reaches a failure state. 
 
@@ -317,7 +327,7 @@ as the foundation of their board is now already designed.
 The microbasic common circuit block allows a designer to simply add microcontroller functionality and CAN communication to their board. The circuit is designed to 
 be have an arduino like shield interface. So all microbasics have the same form factor and can be swapped between boards.
 
-INSERT SHIELD PICTURE
+![stack](./images/stack.png)
 
 The microbasic circuit block was designed around the STM32F446RE  microcontroller, so it had a wide range of functionality. It has a single core that can clock up to 180Mhz, 
 128kB of RAM, and 512kB of flash. It has a variety of IO which is important for our use cases: 2 CAN (Controller Area Network )bus, 3 SPI (Serial Peripheral Interface) bus
@@ -327,15 +337,18 @@ with 14 multiplexed channels, and almost any pin can be used as GPIO (General Pu
 oscillator to provide better clock signal for the MCU. In order to flash code to the STM we use and an [STLink-V3 Mini](https://www.notion.so/SN1-MicroBasic-1deca4169f56468c99fa2c085f99298a?pvs=4#ab11aacb53344ac3afc457d902257981)
 that would flash the board through SWD (Serial Wire Debug).
 
-INSERT PICTURE
+![microbasic_pcb](./images/microbasic_pcb.png)
+![mircobasic_schem](./images/mircobasic_schem.png)
+
 
 The microbasic has 2 built in CAN transcievers, allowing a designer to leverage the 2 can buses available on the STM32.
 
-INSERT PIC
+![micro can](./images/micro_can.png)
 
 The board gets 5V of power from pin 2 which is dropped down to 3.3V for the STM and CAN transcievers
 
-INSERT PIC
+![micro power](./images/micro_power.png)
+
 
 The microbasic was a great board design, it was reliable and simple to use. I think our ability count on this design really allowed the EECS team to built reliable
 LV systems. 
@@ -350,7 +363,8 @@ a 24V power input from 2 12V drill batteries wired in series. We used drill batt
 our own. The power from the input is then delivered to 3 24V branches and 1 12V branch, each of which is fused for protection and the 24V branches have a TPS2482 hotswap 
 controller in line. The reason there is a 12V branch is due to grandfathered systems fro SN1 we didn't want to change. 
 
-INSERT SCHEMATIC
+![lvpdb_schem](./images/lvpdb_schem.jpg)
+![lvpdb_schem](./images/lvpdb_layout.jpg)
 
 The way that we were able to ensure the fact that each branch had power being delivered safey was through a fuse initially. Then for all 24V branches the TPS2482 
 provide an extra layer of protection. The TPS2482 chip was a hotswap controller, usually used in computer towers so you can safely remove graphics cards. These
@@ -358,7 +372,7 @@ chips provided overcurrent protection, power good, switching ability, as well as
 connected to a microbasic, so all of this information was sent over CAN and stored by the data logging board. These chips were really great, as they provided protection
 while providing digitalized sensor readings that the microbasic could read.
 
-INSERT PICTURES
+![LVPDB](./images/LVPDB.jpg)
 
 
 ## LV Harnessing
@@ -375,7 +389,9 @@ thing we did with the CAT5 cable was deliver power over it. It is spec'd for 2.2
 sure this was okay we set up a test rig that pushed 5A of power through the cable for a few hours and nothing happened. After that we decided it should be good to go. The CAT5
 cable didn't have any downsides in my opinion, I thought it was a great solution for our use case and really simplified wiring.
 
-INSERT CAT5 PIC
+![CAT5](./images/cat5e.avif)
+![rj45](./images/rj45.jpeg)
+
 
 For sensor inputs on boards and anything that wasn't CAN or power we used binder connectors and cables. These cables were grandfathered in from SN1 and were chose because of
 their water proofing. They were the cable we used for our shutdown circuit wiring and any general use case. To be honest they were very difficult to woby rk with, the wires were 
@@ -383,7 +399,7 @@ held in place by skrew terminals and were easy to fall out, to connect a male an
 and break things, and worst of all they were really expensive to be having all these problems. Overall I wish we'd chosed a differen't general purpose wire and connector system, and
 I believe they're doing so for SN3. 
 
-INSERT BINDER PIC
+![binder](./images/binder.jpeg)
 
 ## APPS: Accelerator Pedal Position Sensor
 
@@ -400,14 +416,14 @@ temperature of greater than 60C, so if your battery is at 55C and you continue t
 wait for the battery to cool down. Instead of doing this, you should adaptively generate torque mappings reducing and increasing the maximum amount of torque
 the accelerator pedal can command based on different factors of the car. This will keep the car operating in an optimal state for longer. 
 
-INSERT PICTURE OF DYNAMIC TORQUE MAPPING curves
+{/* INSERT PICTURE OF DYNAMIC TORQUE MAPPING curves */}
 
 The way this would work would be fairly simple. The ECU already collects all the data from the car so that node would take that data and generate the
 function, and then send it to the APPS over can. The APPS would then use that function to send optimal torque commands to the motor controller. This 
 system is very doable in the future, but during SN2's development we had limited battery data so we couldn't create proper torque curves.
 
-INSERT PICTURES OF THE APPS
-
+![apps](./images/apps_debug_plugged_in.jpeg)
+![apps](./images/apps_schem.png)
 
 ## BSPD: Brake System Plausibility Device
 
@@ -417,7 +433,8 @@ pedals are in the front of the car and the inverter is in the back of the car. T
  shutdown logic, and the part in the back of the car measures the power being delivered to the inverter. The system will shutdown the car if there is a short 
 in any of the BSPD's sensor inputs or if the brake pedal is being pressed while high power is beingdelivered to the inverter. 
 
-INSERT PICTURE
+![bspd schem](./images/bspd_schem.png)
+![bspd layout](./images/bspd_layout.png)
 
 ## Pre-charge and Discharge
 
@@ -428,7 +445,7 @@ charge to the same voltage as the battery pack.
 The way the precharge system works is that once the car is ready to drive, before you close the main AIRs you on the + side you close a different line
 with a large resistance on it. 
 
-INSERT PICTURE
+![pre ](./images/precharge.png)
 
 What this does is that it reduces the amount of current capable of going through the system, making it so the capacitor in the motor controller slowly
 reaches the same voltage as the battery pack. Then using the IVT current and voltage sensor we can measure the capacitor voltage of the motor controller
@@ -443,7 +460,7 @@ The way the discharge works is essentially the same way the precharge system wor
 power input to a resistor that's connected to ground. What this does is it drains all the excess voltage from the motor controller capacitor and bleeds it 
 through the resistor till it reaches 0V.
 
-INSERT PICTURE
+![dis ](./images/discharge.png)
 
 Now the reason for the discharge circuit is that if we were to leave the motor controller without discharging it if someone were to touch it's + and -
 inputs they would be shocked with HV. This would be really bad, and potentially fatal. So we drain all that energy through a resistor so there's no safety
@@ -456,7 +473,8 @@ a built in screen. This was extremeley difficult to package and not reliabe. So 
 steering wheel that would send commands over CAN to various parts of the car. We could map the buttons to anything we wanted, so it was very 
 versatille. I really liked how we opted for reliability and function over form here, I think it really helped us down the line. 
 
-INSERT SCHEMATIC AND STEERING WHEEL PICTURE
+![steering wheel ](./images/steering_wheel.png)
+![steering pcb](./images/steering_pcb.png)
 
 ## ECU
 
@@ -466,7 +484,7 @@ If this functionality was split between many boards it would flood our CAN bus w
 was a combination of a [Rasberry Pi 4](https://www.raspberrypi.com/products/raspberry-pi-4-model-b/), an STM32F446RE Nucleo board, an
 [Xbee radio transcievers](https://learn.adafruit.com/xbee-radios/overview), and a display. 
 
- INSERT CONNECTION BREAKDOWNS
+![ecu](./images/ecu.png)
 
 The way that system processed information was that the STM32 essentially was just there to translate CAN data to SPI and send it to the Pi to process. This board 
 needed to do a lot of things, so we leveraged its extra compute power to handle all these tasks. The thing other than CAN -> SPI translation the STM would do would 
@@ -496,14 +514,13 @@ owner manual.
 The inverter and the motor were the only water cooled parts of the car. The setup was quite straight forward in theory, we had a radiator on the side of the car
 and a pump that would circuilate the water through it and keep it cool. The pump that we used was the [UAkron GRI INTG7 060](https://www.gripumps.com/pumps/intg7/).
 
-INSERT COOLING LOOP PICTURE
 
-# Computer Science
+{/* # Computer Science
 
 I don't feel like it's necessary to go into the specifics of the CS implementationf for each part of the car as it'll get boring quite fast. However, I think 
 it's important to go over our overall code diagram, that broke down where different parts of the codebase would be running on the car.
 
-## SN2 State Machine
+## SN2 State Machine */}
 
 # Appreciation!
 
@@ -514,3 +531,5 @@ Shoutout to the rest of the FEB 2022-2023 team who all had an equal part in maki
 EECS: Teddy Zhang, Rod Bayliss, Nikhil Ograin, Andrew Mussell, Pranav Pomalapally, Aman Doshi, Evan Sandoval
 Mech E: Chris Leafstrand, Weston White, Toshko Andreev, Ming Chin, Simon Huang, and Daniel Pack
 Business: Michael McCulloch and Sarah Cheng
+
+![FEB PM's](./images/PM_pic.png)
