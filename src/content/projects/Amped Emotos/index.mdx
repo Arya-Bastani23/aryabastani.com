@@ -28,7 +28,7 @@ UC erkeley, and was made up of a group of 10. There were 4 engineers (3 mechanic
 and the CEO. The engineering team started completely from scratch and in 3 months was able to build a fully functioning 
 prototype motorbike capable of 60 mph! We named the prototype Katara.
 
-INSERT PIC OF FINAL PRODUCT
+![amped bike](./images/amped_bike.jpg)
 
 My role on the team was Chief Electrical Engineer and Computer Scientist - which meant I led the development of everything 
 that had power going through it. I was the only EE or CS person on the team, so getting a fully functioning prototype working 
@@ -76,7 +76,8 @@ We reverse engineered the battery sizing based on these requirements. We chose t
 on the market while also being capable of fast discharge. Once we had the cells chosen we could use their discharge curves along with the motor's power
 curves to figure out setup that met our requirements. 
 
-INSERT CURVE PICSs
+![motor curve](./images/motor_curve.png)
+![2170 curve](./images/battery_curve.png)
 
 The final pack setup had 360 2170 cells in a 18P and 20S configuration. The pack's nominal voltage was 72V with 84Ah, and a maximum discharge rate of 64.8 kilowatts.
 We did not have the man power or time to design a custom BMS and assemble the pack in house, so for these reasons we had a local manufacturer built it for us. For the 
@@ -110,7 +111,9 @@ more clearance. However, if a user is trying to go fast they would benefit from 
 The way we implemented this was by having a lead screw that would adjust the mounting position of the suspension. The system was designed so the lead screw 
 didn't take any load, so there were no reliability issues. The lead screw was powered with a [775 Pro](https://motors.vex.com/vexpro-motors/775pro#sljv8tn) motor 
 and a [Talon SRX motor controller](https://www.vexrobotics.com/217-8080.html). The ECU would send PWM signals to the Talon to control it. We had future plans 
-to have the system continuously adjust during a ride, but didn't have enough time to implement this. 
+to have the system continuously adjust during a ride, but didn't have enough time to implement this.
+
+![ILAS](./images/ilas_1.jpg)
 
 # Telemetry
 
@@ -126,4 +129,6 @@ business side of a company is. That summer we built an amazing prototype that wa
 However you can build a great product, but if the market doesn't need/want that product you end up just wasting your time. Sadly, in the
 end Amped Emotos failed because the e bike market was so saturated, and not enough market research was done to confirm the niche
 we were creating for actually existed. In the end, it was a great experience and I'm so happy to have been apart of such a fun and
-motivated team! Shoutout to my fellow engineers Tijmen Sep, Gavin May, and Themis Hadjioannou :)
+motivated team! 
+
+Shoutout to my fellow engineers Tijmen Sep, Gavin May, and Themis Hadjioannou :)
