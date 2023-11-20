@@ -14,22 +14,20 @@ thumb: images/febimage.jpg
 
 - As Chief EECS Engineer I oversaw/managed the design, implementation, and manufacturing of electric and software systems of a
   Formula SAE EV race car
-- As Chief EECS Engineer I oversaw/managed the design, implementation, and manufacturing of electric and software systems of a
-  Formula SAE EV race car
 - Manage a team of 35 designing more than 20 custom PCBs and custom firmware to create an electric race car with an 80kW
   powertrain, active telemetry system, and pit interface capable of going 80 mph while carrying a human safely
 - Optimize performance of system to inverter efficiently supply maximum amount of power without overheating battery of car
 - Project lead of low voltage power distribution board and ground station software/interface in previous years
 - Designed all hardware and firmware from scratch for a PCB switching between two power inputs supplying power to low
   voltage systems, tracks power draw data of systems, and communicates through CAN using a STM32F446 microcontroller
-- Joined team as a founding member with
+- Joined team as a founding member with less than 30 members, and helped grow it to over 80 members
 
 # [Photo Album](https://photos.app.goo.gl/55bmf2f8Vo1RnfF58)
 
 # Introduction
 
 [Formula Electric at Berkeley](https://ev.berkeley.edu/) is club at the University of California: Berkeley. The club has
-roughly 80 members, and serves to educate it's members with real world engineering skills through building a car to
+roughly 80 members, and serves to educate its members with real world engineering skills through building a car to
 compete in the [SAE Formula EV competition](https://www.fsaeonline.com/). Every year the car is designed to be able to
 carry a 5th percentile female to 95th percentile male and participate in a series of races: acceleration, endurance, and
 autocross.
@@ -73,10 +71,10 @@ manner like a car OEM.
 
 SN2 was designed with the goal to be rule complaint, manufacturable, safe, and to finish an endurance race. It had a 571.2V
 battery pack with a maximum power output of 80kW - approximately 110 horsepower. SN2 ran a single Emrax 228 motor with a
-rhinehart PM100DZ inverter. The car had a decentralized computing system, where nodes - moslty made of custom PCB's architected
-around the STM32F446 microcontrollers - communicated with eachother over a CAN bus. SN2 had an interactive driver heads up display,
-datalogging, and a telemetry system that fed data to a pit GUI. This allowed us to make data driven decisions in order
-to improve SN2 and prepare for SN3.
+rinehart PM100DZ inverter. The car had a decentralized computing system where nodes - mostly made of custom PCBs constructed around 
+the STM32F446 microcontroller - communicated with each other over a CAN bus.
+SN2 had an interactive driver heads up display, datalogging, and a telemetry system that fed data to a pit GUI. This allowed 
+us to make data driven decisions in order to improve SN2 and prepare for SN3.
 
 ![Myself Driving](./images/arya_driving.jpeg)
 
@@ -86,11 +84,11 @@ to improve SN2 and prepare for SN3.
 
 ![Accumulator B&W](./images/accumulator_black_and_white.png)
 
-The accumulators is the heart of the car, without SN2 would be a glorified shopping cart. That being said it was also the most
+The accumulator is the heart of the car, without which SN2 would be a glorified shopping cart. That being said it was also the most
 difficult part of the car on the EECS side to prototype, design, and build. Building a functional accumulator is a true test of
 safety and good engineering practices, 9/10 times it's where FSAE teams fail.
 
-SN2's accumulator was broken up into two piece: the attic and segments housing. The segments housing was where the actual battery
+SN2's accumulator was broken up into two pieces: the attic and segments housing. The segments housing was where the actual battery
 cells were, and the attic was where all of the safeguards and logic of the acculumator was.
 
 ## The Segments Housing
@@ -98,7 +96,7 @@ cells were, and the attic was where all of the safeguards and logic of the accul
 ## The Cells
 
 SN2's accumulator was a 571.2V battery pack capable of 80kW of discharge. The pack was comprised of
-[energus modules](https://drive.google.com/file/d/13J72bW00z5FcrS1s2J84LHX0J47q02Jx/view?usp=sharing) made from Samsung 18650 cells.
+[energus modules](https://drive.google.com/file/d/13J72bW00z5FcrS1s2J84LHX0J47q02Jx/view?usp=sharing) made from Sony VTC6 18650 cells.
 The modules were made of 4 18650 cells put in parallel, each module had 10Ah and 3.8 nominal voltage. The great part about these modules
 interfaced with bus bars with built in skrew threads, requiring no spot welding. In addition to this they had built in temperature
 sensors that were simple to connect with using a molex connection. The only problem with these modules were that they were very difficult
@@ -111,7 +109,7 @@ The reason we chose these modules are because they did not require any spot weld
 
 The accumulator had a few levels of "battery abstraction". The lowest level was called the "cell" this was the actual cylindrical Samsung
 18650 batteries, the next was the "module" which were the energus modules that put 4 of those 18650's in parallel allowing for 10Ah of discharge.
-The modules were still low voltage, we would put 17 of them in series in order to build up to a nominal voltage of 64.6V. We would call this
+The modules were still low voltag. We would put 17 of them in series in order to build up to a nominal voltage of 64.6V. We would call this
 HV set of modules a "segment". Finally we would put 8 segments in series to create the final "accumulator". The reason we split up the accumulator
 like this is due to safety. HV is dangerous, so by splitting the pack up, if something goes wrong the amount of energy that you're dealing with is smaller.
 
@@ -172,10 +170,10 @@ the pack lid had a thick layer of insulating foam, so there was no chance of the
 ## BBB: Big Battery Board
 
 The Big Battery Board AKA the BBB was the brain of SN2's accumulator. It was responsible for handling all information pertaining to the accumulator, sending
-pertinant info to the rest of the car, making sure the battery was in a safe condition, and shutting of the system if it wasn't.
+pertinent info to the rest of the car, making sure the battery was in a safe condition, and shutting of the system if it wasn't.
 
-This board was made out of a hatred for harnessing born from working on SN1's pack. Inside SN1's attic there was 5 custom PCBS's: BMS Mother Board, HV Indicator
-Light Driver, IMD Driver, Precharge Circuit, HV Fusing. After realizing that each board had almost the same inputs and outputs, we decided to consolidate
+This board was made out of a hatred for harnessing born from working on SN1's pack. Inside SN1's attic there were 5 custom PCBS's: BMS Mother Board, HV Indicator
+Light Driver, IMD Driver, Precharge Circuit and HV Fusing. After realizing that each board had almost the same inputs and outputs, we decided to consolidate
 them all into a single board called the BBB, which reduced the time and complexity of harnessing exponentially! The following picture shows SN1's attic on the left 
 vs SN2's attic on the right, displaying how much smaller SN2's is.
 
@@ -227,7 +225,7 @@ Additionally this setup required minimal harnessing, because iso-SPI allowed all
 ## BMS Auxillary Board
 
 The Auxillary boards served to essnetially gather all the signals needed by the daughter boards, and also hold the cell balancing transistors and resistors. For each
-module the segment had 4 components that were repeated across the board: temp sensor driver, fusing, RC filter on voltage, and balancing circuit. The ladder were combinded into
+module the segment had 4 components that were repeated across the board: temp sensor driver, fusing, RC filter on voltage, and balancing circuit. The latter were combined into
 a single circuit block in design.
 
 ![aux full](./images/aux-2.png)
@@ -249,7 +247,7 @@ there as an indicator for when we're doing balancing.
 In order to measure the full HV voltage and current on the system we were presented with two options. Build systems that could do these functions, or get an off the 
 shelf solution. We found the [IVT S-Series Current Sensor](https://www.isabellenhuetteusa.com/product/ivt-s-series/). It was a solution that perfectly fit our use case 
 and would save us many engineering hours, so we opted to use it over a fully custom solution. It worked great, it had a high current measurement sensor and 2 HV capable 
-voltage sensors and would automatically send it's measurements over CAN. All it needed from the BBB was power. The BMS would use this sensore to inform battery safety and
+voltage sensors and would automatically send its measurements over CAN. All it needed from the BBB was power. The BMS would use this sensore to inform battery safety and
 since the sensor was built so well we never had any issues and could truly trust the battery was safe.
 
 ![ivt](./images/ivt.jpeg)
@@ -284,8 +282,8 @@ when something goes wrong in the car. The AIR's are simple but important.
 
 ## Fan and Fan Drivers
 Sadly cooling was an after thought on SN2. We had no simulations to back up any claims we had. But, we knew that adding fans could only help our system be more efficient (for the most part).
-Following this trian of thought we slapped 12 [Sanyo Denki 9WPA0624P4G001](https://www.digikey.com/en/products/detail/sanyo-denki-america-inc/9WPA0624P4G001/13170607) fans on the thing and
-called it a day. We split them up into 4 groups of 3, each group was controlled individually using 4 125kHz PWM signals. Each fan also had a tachnometer, which would return a signal
+Following this train of thought we slapped 12 [Sanyo Denki 9WPA0624P4G001](https://www.digikey.com/en/products/detail/sanyo-denki-america-inc/9WPA0624P4G001/13170607) fans on the thing and
+called it a day. We split them up into 4 groups of 3, each group was controlled individually using 4 125kHz PWM signals. Each fan also had a tachometer, which would return a signal
 that showed how fast the fan was actually spinning, we used this to create a closed loop system to get fans to go the exact speed we wanted them to. 
 
 ![fans](./images/fans.jpg)

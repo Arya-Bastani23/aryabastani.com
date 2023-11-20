@@ -14,7 +14,7 @@ const Container = styled.div``;
 
 export default function Projects({ data }) {
   let description =
-    "I am an engineer. Here's some cool stuff I've made. Heads up I made this website recently and am still filling it in with my old projects.";
+    "I am an engineer. Here's some cool stuff I've made. Heads up, I made this website recently and am still filling it in with my old projects.";
   return (
     <Container>
       <PageHead title={"Projects"} description={description} />

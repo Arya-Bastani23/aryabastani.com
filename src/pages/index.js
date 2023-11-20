@@ -76,21 +76,30 @@ const Home = ({ data }) => {
   return (
     <Container>
       <div>
-        <h3>
+        {/* <h3>
           Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site
           because I wanted to learn web dev, and apply it in the most
           narcissistic way possible.
+        </h3> */}
+        <h3>
+          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site
+          because I wanted to learn web dev, and show off some things I've
+          helped build.
         </h3>
         <h3>
-          I'm gonna go over projects I've worked on that I show off my
-          capabilities as an engineer and leader.
+          The problems I enjoy solving the most revolve around ML and robotics.
+          🧠 🦾
         </h3>
         <p>
-          I'm currently a SDE at AWS, and I also graduated from{" "}
+          I graduated from{" "}
           <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
             <strong> UC Berkeley </strong>
           </a>
-          in 2023. 🐻
+          in 2023 🐻, and I currently work as a SDE at{" "}
+          <a href="https://aws.amazon.com/">
+            <strong> AWS </strong>
+          </a>
+          .
         </p>
         <Socials />
       </div>
