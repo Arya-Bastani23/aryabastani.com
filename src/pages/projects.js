@@ -13,13 +13,10 @@ export const Head = ({ data: { site } }) => {
 const Container = styled.div``;
 
 export default function Projects({ data }) {
-  let description = "I am an engineer. I make stuff. Here's some stuff I made.";
+  let description =
+    "I am an engineer. Here's some cool stuff I've made. Heads up I made this website recently and am still filling it in with my old projects.";
   return (
     <Container>
-      <p>
-        "I made this website recently so I'm still in the process of adding all
-        the projects I've worked on"
-      </p>
       <PageHead title={"Projects"} description={description} />
       <ProjectSection data={data.projects} />
     </Container>
