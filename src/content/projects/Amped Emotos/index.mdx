@@ -94,8 +94,6 @@ This is where most of my development time during the summer went, the ECU would 
 the bike. I really didn't have much experience with microcontroller development before this, after being Chief EECS of FEB I would've made half the mistakes and finished
 this part of the system in half the time. Looking back I realized I was asking myself the wrong questions half the time, but hey that's life.
 
-INSERT FUNNY DEBUG PICTURE
-
 This node of the bike would: process all sensor input, control the motor controller, control the ILAS system, and log all CAN messaged. The microcontoller we chose to
 use was initially an Arduino MKR Zero, but it was intended for more of hobbyist use and didn't give much control. In the end we switched to the STM32F446RE. The board's 
 main function was to communicate throttle commands to the motor controller. It would take potentiometer readings from the driver's throttle, then translate them to torque 

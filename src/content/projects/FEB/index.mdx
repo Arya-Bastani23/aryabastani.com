@@ -209,7 +209,7 @@ The daughter boards design was centered around the LTC6811-1, it was a great sol
 GPIO, ADC, and isolated communication for 5-12 battery cells. The reason we used two of these chips on each aux board is because they were only capable of up to managing 12
 cells and we had 17 modules in each segment. They interfaced with the aux board through a pin connection like an arduino shield.
 
-![stack](./images/bms_stack.png)
+![stack](./images/bms_stack.jpg)
 
 Once we had this IC we just need to figure out a way to give it power, and how to get them to work with our temp
 sensors. For the most part we followed the recommended exmample given in it's data sheet. To power the chip we used an LT3990 buck converter that dropped down HV
@@ -420,7 +420,7 @@ The way this would work would be fairly simple. The ECU already collects all the
 function, and then send it to the APPS over can. The APPS would then use that function to send optimal torque commands to the motor controller. This 
 system is very doable in the future, but during SN2's development we had limited battery data so we couldn't create proper torque curves.
 
-![apps](./images/apps_debug_plugged_in.jpeg)
+![apps](./images/apps_debug_plugged_in.jpg)
 ![apps](./images/apps_schem.png)
 
 ## BSPD: Brake System Plausibility Device
