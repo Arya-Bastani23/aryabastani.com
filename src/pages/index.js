@@ -95,11 +95,12 @@ const Home = ({ data }) => {
           <a href="https://www.forbes.com/sites/madisonfernandez/2021/09/08/why-berkeley-is-number-one/?sh=674bb67647e0">
             <strong> UC Berkeley </strong>
           </a>
-          in 2023 🐻, and I currently work as a SDE at{" "}
+          in 2023 🐻. I worked as a SDE at{" "}
           <a href="https://aws.amazon.com/">
             <strong> AWS </strong>
           </a>
-          .
+          for 9 long months. In May 2024, after admission to YC S24, I quit to
+          build a start-up with my best friends 🛠️. More info coming soon!
         </p>
         <Socials />
       </div>
