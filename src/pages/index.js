@@ -82,9 +82,8 @@ const Home = ({ data }) => {
           narcissistic way possible.
         </h3> */}
         <h3>
-          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I created this site
-          because I wanted to learn web dev, and show off some things I've
-          helped build.
+          Hello, I'm <strong>Arya Bastani (🍦)</strong>. I'm building Camfer to
+          make design and CAD'ing faster and more fun.
         </h3>
         <h3>
           The problems I enjoy solving the most revolve around ML and robotics.
